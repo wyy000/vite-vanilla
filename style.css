@@ -1,8 +1,33 @@
+html,
+body,
+#app {
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: none;
+  padding: 10px;
+}
+
+button:focus {
+  outline: none;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  display: flex;
+}
+
+.nav_list {
+  width: 200px;
+}
+
+.container {
+  flex: 1;
 }
