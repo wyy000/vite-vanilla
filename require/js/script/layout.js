@@ -1,17 +1,22 @@
 define(function () {
-  const navList = [
-    {name: 'table', path: 'table.html'},
-    {name: 'input', path: 'input.html'},
-  ]
-
-  const layout = function (node) {
+  const layout = function (node, navList) {
     // menu
     let res = ''
     for (it of navList) {
       res += `<button data-path="${it.path}">${it.name}</button>`
     }
-    let nav = $($('<div class="nav_list" style="display: flex; flex-direction: column;"></div>')[0]).html(res)
-    node.append(nav)
+    let $nav = $($('<div class="nav_list""></div>')[0]).html(res)
+    node.append($nav)
+
+    $nav
+      .css('height', '100%')
+      .css('display', 'flex')
+      .css('flex-direction', 'column')
+      .css('border-right', '1px solid #ddd')
+    .children('button')
+      .css('border', 'none')
+      .css('border-radius', '0')
+      .css('border-bottom', '1px solid #ddd')
 
     // page
     const iframe = $('.container').children('iframe')[0]
@@ -23,7 +28,7 @@ define(function () {
     }
 
     // event
-    $('.nav_list').on('click', 'button', function (e) {
+    $nav.on('click', 'button', function (e) {
       $('.container').children('iframe')[0].src = $(e.target).data('path')
     })
 
