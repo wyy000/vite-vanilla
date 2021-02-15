@@ -23,7 +23,7 @@ define(function () {
     if (iframe) {
       iframe.src = navList[0].path
     } else {
-      const container = $(`<div class="container"><iframe id="nav_iframe" src="${navList[0].path}" style="width: 100%;height: 100%;border: none;" /></div>`)[0]
+      const container = $(`<div class="container"><iframe id="nav_iframe" src="${(navList.find(it => it.active === true) || navList[0]).path}" style="width: 100%;height: 100%;border: none;" /></div>`)[0]
       node.append(container)
     }
 

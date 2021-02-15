@@ -10,7 +10,16 @@ export default [
       return {
         code: 0,
         data: menuList,
-      };
+      }
+    },
+  },
+  {
+    url: '/upload-file',
+    method: 'post',
+    response: ({ query , body}) => {
+      return {
+        code: 0,
+      }
     },
   },
 ] as MockMethod[]

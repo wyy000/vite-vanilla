@@ -6,7 +6,15 @@ define(['api'], function () {
     })
   }
 
+  const uploadFile = function (config) {
+    $.ajax({
+      url: '/upload-file',
+      ...config,
+    })
+  }
+
   return {
     menuList,
+    uploadFile,
   }
 })
