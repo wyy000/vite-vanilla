@@ -3,38 +3,84 @@ require(['common'], function () {
     require(['echarts'], function (echarts) {
       // 基于准备好的dom，初始化echarts实例
       const chart = $('#chart_main')
-      chart
+      const $child = $('<div id="child"></div>')
+      const $parent = $('<div id="parent"></div>')
+
+      chart.append($child, $parent)
+
+      $child
+        .css('width', '600px')
+        .css('height', '400px')
+      $parent
         .css('width', '600px')
         .css('height', '400px')
 
-      const myChart = echarts.init(chart[0]);
-
-      // 指定图表的配置项和数据
-      const option = {
+      const myChart1 = echarts.init($child[0])
+      const option1 = {
         title: {
-          text: 'ECharts 入门示例'
+          text: '儿童自我状态',
+          left: 'center'
         },
-        tooltip: {},
+        tooltip: {
+          trigger: 'item'
+        },
         legend: {
-          data:['销量']
+          orient: 'vertical',
+          left: 'left',
         },
-        xAxis: {
-          data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-        },
-        yAxis: {},
-        series: [{
-          name: '销量',
-          type: 'bar',
-          data: [5, 20, 36, 10, 10, 20]
-        }],
-        animationDuration: function () {
-          // 越往后的数据时长越大
-          return 100
-        }
+        series: [
+          {
+            // name: '访问来源',
+            type: 'pie',
+            radius: '50%',
+            data: [
+              {value: 50, name: '自然型儿童'},
+              {value: 50, name: '适应型儿童'},
+            ],
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            }
+          }
+        ]
       }
+      option1 && myChart1.setOption(option1)
 
-      // 使用刚指定的配置项和数据显示图表。
-      myChart.setOption(option);
+      const myChart2 = echarts.init($parent[0])
+      const option2 = {
+        title: {
+          text: '父母自我状态',
+          left: 'center'
+        },
+        tooltip: {
+          trigger: 'item'
+        },
+        legend: {
+          orient: 'vertical',
+          left: 'left',
+        },
+        series: [
+          {
+            type: 'pie',
+            radius: '50%',
+            data: [
+              {value: 50, name: '抚育型父母'},
+              {value: 50, name: '挑剔型父母'},
+            ],
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            }
+          }
+        ]
+      }
+      option2 && myChart2.setOption(option2)
     })
   })
 })
