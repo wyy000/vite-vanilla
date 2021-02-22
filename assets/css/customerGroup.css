@@ -1,0 +1,49 @@
+input {
+  appearance: none;
+  width: 288px;
+  line-height: 30px;
+  padding-left: 12px;
+  border-radius: 2px;
+  border: 1px solid #dadfe9;
+  font-size: 13px;
+  color: #777;
+  cursor: pointer;
+}
+
+textarea {
+  width: 296px;
+}
+
+button {
+  margin-left: 20px;
+  border: none;
+}
+
+button:focus {
+  outline-width: 0;
+}
+
+.search {
+  display: flex;
+}
+
+#createBtn {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  padding-right: 10px;
+  border-radius: 2px;
+  color: white;
+  background: #35cbbe;
+}
+
+.formBox > div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.formBox label {
+  width: 80px;
+  font-size: 14px;
+  color: #777;
+}

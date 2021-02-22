@@ -1,4 +1,5 @@
 import { viteMockServe } from 'vite-plugin-mock';
+   // const {resolve} = require('path')
 
 import { UserConfigExport, ConfigEnv } from 'vite';
 
@@ -17,5 +18,14 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
         `,
       }),
     ],
+
+    // build: {
+    //   rollupOptions: {
+    //     input: {
+    //       index: resolve(__dirname, 'index.html'),
+    //       chart: resolve(__dirname, 'chart.html'),
+    //     }
+    //   }
+    // }
   }
 }

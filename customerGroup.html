@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>customerGroup</title>
+  <link rel="stylesheet" href="/assets/css/customerGroup.css">
+</head>
+<body>
+  <div class="customerGroup">
+    <div id="list">
+      <div class="search">
+        <input type="text" placeholder="搜索分群名称" />
+        <button id="createBtn">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="20" height="20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+          </svg>
+          <span>新建分群</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="create">
+      <div>创建用户分群</div>
+      <button id="closeBtn">X</button>
+      <div class="formBox">
+        <div>
+          <label for="showName">分群显示名</label>
+          <input type="text" name="name" id="showName" />
+        </div>
+        <div>
+          <label for="groupName">分群名称</label>
+          <input type="text" name="name" id="groupName" />
+        </div>
+        <div>
+          <label>更新方式</label>
+          <div>手动</div>
+        </div>
+        <div>
+          <label for="upload">上传</label>
+          <input type="file" name="file" id="upload" />
+        </div>
+        <div>
+          <label for="remark">备注</label>
+          <textarea cols="50" rows="5" name="remark" id="remark"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script data-main="/require/js/script/customerGroup.js" src="/require/js/lib/require.js"></script>
+</body>
+</html>
