@@ -20,8 +20,15 @@
     </div>
 
     <div id="create">
-      <div>创建用户分群</div>
-      <button id="closeBtn">X</button>
+      <div class="create_header">
+        <div>创建用户分群</div>
+        <button id="closeBtn">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+            <path fill="none" d="M0 0h24v24H0z"/>
+            <path fill="currentColor" d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"/>
+          </svg>
+        </button>
+      </div>
       <div class="formBox">
         <div>
           <label for="showName">分群显示名</label>
@@ -31,9 +38,18 @@
           <label for="groupName">分群名称</label>
           <input type="text" name="name" id="groupName" />
         </div>
-        <div>
+        <div class="row_type">
           <label>更新方式</label>
-          <div>手动</div>
+          <button disabled>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+              <path fill="none" d="M0 0h24v24H0z"/>
+              <path fill="currentColor" d="M1.923 9.37c-.51-.205-.504-.51.034-.689l19.086-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.475.553-.717.07L11 13 1.923 9.37zm4.89-.2l5.636 2.255 3.04 6.082 3.546-12.41L6.812 9.17z"/>
+            </svg>
+            <span>手动</span>
+            <svg class="check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18">
+              <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"/>
+            </svg>
+          </button>
         </div>
         <div>
           <label for="upload">上传</label>

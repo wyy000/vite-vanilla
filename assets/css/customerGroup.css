@@ -15,13 +15,16 @@ textarea {
 }
 
 button {
-  margin-left: 20px;
   border: none;
+  background: none;
+  cursor: pointer;
 }
 
 button:focus {
   outline-width: 0;
 }
+
+/* ========== list =========== */
 
 .search {
   display: flex;
@@ -30,11 +33,67 @@ button:focus {
 #createBtn {
   display: flex;
   align-items: center;
+  margin-left: 20px;
   padding: 5px;
   padding-right: 10px;
   border-radius: 2px;
   color: white;
   background: #35cbbe;
+}
+
+/* ========== create_form =========== */
+#create {
+  display: none;
+}
+.create_header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding: 6px 8px;
+  font-size: 16px;
+  line-height: 28px;
+  color: white;
+  background: #2c3e50;
+}
+.create_header > button {
+  color: #ddd;
+  opacity: 70;
+}
+
+.row_type button {
+  position: relative;
+  overflow: hidden;
+  padding: 10px;
+  padding-right: 20px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  color: #999;
+  background: #eee;
+  cursor: not-allowed;
+  display: flex;
+  align-items: center;
+}
+.row_type span {
+  margin: 0 4px;
+}
+.row_type button::before {
+  content: '';
+  position: absolute;
+  top: -18px;
+  right: -14px;
+  width: 32px;
+  height: 32px;
+  transform: rotate(40deg);
+  transform-origin: center;
+  background: #aaa;
+  z-index: 0;
+}
+.row_type .check {
+  position: absolute;
+  top: -4px;
+  right: -1px;
+  z-index: 1;
+  color: #eee;
 }
 
 .formBox > div {
