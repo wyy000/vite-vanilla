@@ -1,6 +1,6 @@
 import { MockMethod } from 'vite-plugin-mock'
 
-import {menuList} from '../mongo'
+import {menuList, tableData} from '../mongo'
 
 export default [
   {
@@ -19,6 +19,16 @@ export default [
     response: ({ query , body}) => {
       return {
         code: 0,
+      }
+    },
+  },
+  {
+    url: '/table-data',
+    method: 'get',
+    response: ({ query , body}) => {
+      return {
+        code: 0,
+        data: tableData,
       }
     },
   },

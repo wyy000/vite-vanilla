@@ -6,6 +6,13 @@ define(['api'], function () {
     })
   }
 
+  const tableData = function (config) {
+    $.ajax({
+      url: '/table-data',
+      ...config,
+    })
+  }
+
   const uploadFile = function (config) {
     $.ajax({
       url: '/upload-file',
@@ -15,6 +22,7 @@ define(['api'], function () {
 
   return {
     menuList,
+    tableData,
     uploadFile,
   }
 })
