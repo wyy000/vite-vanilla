@@ -4,7 +4,7 @@ require(['common'], function () {
     /* ========== list-page ==========*/
 
     $('#createBtn').on('click', function () {
-      showDom('#create', '#list')
+      $('#create').css('width', '900px')
     })
 
     /* ========== create-page ==========*/
@@ -15,15 +15,15 @@ require(['common'], function () {
     }
 
     $('#closeBtn').on('click', function () {
-      showDom('#list', '#create')
+      $('#create').css('width', '0')
     })
 
     $('#uploadInput').on('input', function () {
       uploadAjax(getData())
     })
 
-    $('#formBox').on('click', 'input', function (e) {
-      console.log(e)
+    $('#formBox').on('input porpertychange', 'input', function (e) {
+      $(e.target).data('validate') && validate($(e.target))
     })
 
     $('#clearFileBtn').on('click', function () {
@@ -38,13 +38,7 @@ require(['common'], function () {
       res && confirmAjax()
     })
 
-    init()
-
     /* ========== fn ==========*/
-
-    function init () {
-      showDom('#list', '#create')
-    }
 
     function getData () {
       const file = $('#uploadInput')[0].files[0]
@@ -95,12 +89,29 @@ require(['common'], function () {
     }
 
     function validate ($el) {
-      if (validator[$el.data('validate')].require && $el.val() === '') {
-        !$el.next().length && $el.after('<div class="validate_warn">' + validator[$el.data('validate')].require.info + '</div>')
-        $el.addClass('has_error')
-        return false
+      let res = true
+      let message = ''
+      let $errDom = $el.next()
+      let require = validator[$el.data('validate')].require
+      let validate = validator[$el.data('validate')].validate
+
+      if (require && $el.val() === '') {
+        message = require.info
+        res = false
+      } else if (validate && !validate.regexp.test($el.val())) {
+        message = validate.info
+        res = false
       }
-      return !validator[$el.data('validate')].validate || validator[$el.data('validate')].validate.regexp.test($el.val())
+
+      if (!res) {
+        !$el.hasClass('has_error') && $el.addClass('has_error')
+        !$errDom.length ? $el.after('<div class="validate_warn">' + message + '</div>') : $errDom.text() !== message ? $errDom.text(message) : ''
+      } else {
+        $el.hasClass('has_error') && $el.removeClass('has_error')
+        $errDom.length ? $errDom.remove() : ''
+      }
+
+      return res
     }
 
     function setFileName (name) {
