@@ -1,4 +1,11 @@
 define(['api'], function () {
+  const createGroup = function (config) {
+    $.ajax({
+      url: '/create-group',
+      ...config,
+    })
+  }
+
   const menuList = function (config) {
     $.ajax({
       url: '/menu-list',
@@ -21,6 +28,7 @@ define(['api'], function () {
   }
 
   return {
+    createGroup,
     menuList,
     tableData,
     uploadFile,

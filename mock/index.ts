@@ -19,6 +19,7 @@ export default [
     response: ({ query , body}) => {
       return {
         code: 0,
+        fileName: 'demo.txt',
       }
     },
   },

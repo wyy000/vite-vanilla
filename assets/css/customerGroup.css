@@ -13,6 +13,7 @@ input {
 input:focus {
   outline: 0;
   border-color: #21cc96;
+  box-shadow: 0 0 0 2px rgb(0 191 138 / 20%);
 }
 
 textarea {
@@ -104,7 +105,7 @@ button:focus {
 .row_type span {
   margin: 0 4px;
 }
-.formBox {
+.create_form {
   /*flex: 1;*/
   margin-left: 50px;
   margin-bottom: 100px;
@@ -134,7 +135,15 @@ button:focus {
 .row_upload input {
   display: none;
 }
-.row_upload button {
+.row_upload label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.row_upload label:hover {
+  color: #21cc96;
+}
+#fileInput button {
   border-radius: 4px;
   font-weight: 400;
   white-space: nowrap;
@@ -144,24 +153,30 @@ button:focus {
   border: 1px solid #d3dce6;
   transition: all .3s;
 }
-.row_upload label {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-.row_upload span {
-  margin-left: 6px;
-}
-.row_upload button:hover {
+#fileInput button:hover {
   color: #21cc96;
   background-color: #fff;
   border-color: #21cc96;
 }
-.row_upload label:hover {
-  color: #21cc96;
+#fileInput span {
+  margin-left: 6px;
+}
+#fileName {
+  padding: 4px;
+  color: #8492a6;
+  font-size: 14px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+}
+#fileName button {
+  color: #8492a6;;
+  border: none;
+  display: flex;
+  align-items: center;
 }
 .row_upload .upload_describe {
-  margin-top: 10px;
+  margin-top: 8px;
   font-size: 14px;
   line-height: 30px;
   color: #8492a6;
@@ -177,12 +192,12 @@ button:focus {
   cursor: pointer;
 }
 
-.formBox > div {
+.create_form > div {
   display: flex;
   align-items: center;
   margin-bottom: 16px;
 }
-.formBox label {
+.create_form label {
   width: 80px;
   font-size: 14px;
   color: #99a9bf;
@@ -233,6 +248,23 @@ button:focus {
 #confirmBtn:hover {
   background-color: #21cc96;
   border-color: #21cc96;
+}
+
+.validate_warn {
+  color: #fc6772;
+  clear: both;
+  min-height: 22px;
+  font-size: 14px;
+  line-height: 1.5;
+  transition: color .3s cubic-bezier(.215,.61,.355,1);
+}
+.has_error {
+  border-color: #fc6772;
+}
+.has_error:focus {
+  border-color: #ff9195;
+  outline: 0;
+  box-shadow: 0 0 0 2px rgb(252 103 114 / 20%);
 }
 
 html,
