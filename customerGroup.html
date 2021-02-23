@@ -30,15 +30,15 @@
         </button>
       </div>
       <div class="formBox">
-        <div>
+        <div class="form_item">
           <label for="showName">分群显示名</label>
-          <input type="text" name="name" id="showName" />
+          <input type="text" name="name" id="showName" placeholder="输入分群显示名" />
         </div>
-        <div>
+        <div class="form_item">
           <label for="groupName">分群名称</label>
-          <input type="text" name="name" id="groupName" />
+          <input type="text" name="nameId" id="groupName" placeholder="以字母开头, 可包含数字和下划线" />
         </div>
-        <div class="row_type">
+        <div class="form_item row_type">
           <label>更新方式</label>
           <button disabled>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
@@ -51,14 +51,31 @@
             </svg>
           </button>
         </div>
-        <div>
-          <label for="upload">上传</label>
-          <input type="file" name="file" id="upload" />
+        <div class="form_item row_upload">
+          <label>上传</label>
+          <div>
+            <input type="file" name="file" accept="text/plain,.txt" id="uploadInput" />
+            <button>
+              <label for="uploadInput">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                </svg>
+                <span>上传文件</span>
+              </label>
+            </button>
+            <div class="upload_describe">上传txt格式的ID列表创建用户分群</div>
+            <a>下载模板</a>
+          </div>
         </div>
-        <div>
+        <div class="form_item">
           <label for="remark">备注</label>
           <textarea cols="50" rows="5" name="remark" id="remark"></textarea>
         </div>
+      </div>
+
+      <div class="create_footer">
+        <button id="cancelBtn">取消</button>
+        <button id="confirmBtn">确定</button>
       </div>
     </div>
   </div>
