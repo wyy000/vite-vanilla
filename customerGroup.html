@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="/assets/css/customerGroup.css">
 </head>
 <body>
-  <div class="customerGroup">
+  <div class="customerGroup" id="customerGroup">
     <div id="list">
       <div class="search">
         <input type="text" placeholder="搜索分群名称" />
@@ -31,67 +31,72 @@
           </button>
         </div>
 
-        <div id="formBox" class="create_form">
-          <div class="form_item">
-            <label for="showName">分群显示名</label>
-            <div>
-              <input type="text" name="name" id="showName" placeholder="输入分群显示名" autocomplete="off" data-validate="name" />
-            </div>
-          </div>
-          <div class="form_item">
-            <label for="groupName">分群名称</label>
-            <div>
-              <input type="text" name="nameId" id="groupName" placeholder="以字母开头, 可包含数字和下划线" data-validate="nameId" />
-            </div>
-          </div>
-          <div class="form_item row_type">
-            <label>更新方式</label>
-            <button disabled>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
-                <path fill="none" d="M0 0h24v24H0z"/>
-                <path fill="currentColor" d="M1.923 9.37c-.51-.205-.504-.51.034-.689l19.086-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.475.553-.717.07L11 13 1.923 9.37zm4.89-.2l5.636 2.255 3.04 6.082 3.546-12.41L6.812 9.17z"/>
-              </svg>
-              <span>手动</span>
-              <svg class="check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18">
-                <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"/>
-              </svg>
-            </button>
-          </div>
-          <div class="form_item row_upload">
-            <label>上传</label>
-            <div>
-              <div id="fileInput">
-                <input type="file" name="file" accept="text/plain,.txt" id="uploadInput" />
-                <button>
-                  <label for="uploadInput">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                    </svg>
-                    <span>上传文件</span>
-                  </label>
-                </button>
+        <div class="create_body">
+          <div id="formBox" class="create_form">
+            <div class="form_item">
+              <label for="showName">分群显示名</label>
+              <div>
+                <input type="text" name="name" id="showName" placeholder="输入分群显示名" autocomplete="off" data-validate="name" />
               </div>
-              <div id="fileName" style="display: none;">
-                <input type="text" name="upload_filename" readonly="readonly" value />
+            </div>
+            <div class="form_item row_name_id">
+              <label for="groupName">分群名称</label>
+              <div>
+                <div id="errorTarget">
+                  <span class="prefix_name" id="prefixName">user_group_</span>
+                  <input type="text" name="nameId" id="groupName" placeholder="以字母开头, 可包含数字和下划线" data-validate="nameId" />
+                </div>
+              </div>
+            </div>
+            <div class="form_item row_type">
+              <label>更新方式</label>
+              <button disabled>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
                   <path fill="none" d="M0 0h24v24H0z"/>
-                  <path fill="currentColor" d="M14.828 7.757l-5.656 5.657a1 1 0 1 0 1.414 1.414l5.657-5.656A3 3 0 1 0 12 4.929l-5.657 5.657a5 5 0 1 0 7.071 7.07L19.071 12l1.414 1.414-5.657 5.657a7 7 0 1 1-9.9-9.9l5.658-5.656a5 5 0 0 1 7.07 7.07L12 16.244A3 3 0 1 1 7.757 12l5.657-5.657 1.414 1.414z"/>
+                  <path fill="currentColor" d="M1.923 9.37c-.51-.205-.504-.51.034-.689l19.086-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.475.553-.717.07L11 13 1.923 9.37zm4.89-.2l5.636 2.255 3.04 6.082 3.546-12.41L6.812 9.17z"/>
                 </svg>
-                <span></span>
-                <button id="clearFileBtn">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
-                    <path fill="none" d="M0 0h24v24H0z"/>
-                    <path fill="currentColor" d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"/>
-                  </svg>
-                </button>
-              </div>
-              <div class="upload_describe">上传txt格式的ID列表创建用户分群</div>
-              <a>下载模板</a>
+                <span>手动</span>
+                <svg class="check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18">
+                  <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"/>
+                </svg>
+              </button>
             </div>
-          </div>
-          <div class="form_item">
-            <label for="remark">备注</label>
-            <textarea cols="50" rows="5" name="remark" id="remark"></textarea>
+            <div class="form_item row_upload">
+              <label>上传</label>
+              <div>
+                <div id="fileInput">
+                  <input type="file" name="file" accept="text/plain,.txt" id="uploadInput" />
+                  <button>
+                    <label for="uploadInput">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                      </svg>
+                      <span>上传文件</span>
+                    </label>
+                  </button>
+                </div>
+                <div id="fileName" style="display: none;">
+                  <input type="text" name="upload_filename" readonly="readonly" value />
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+                    <path fill="none" d="M0 0h24v24H0z"/>
+                    <path fill="currentColor" d="M14.828 7.757l-5.656 5.657a1 1 0 1 0 1.414 1.414l5.657-5.656A3 3 0 1 0 12 4.929l-5.657 5.657a5 5 0 1 0 7.071 7.07L19.071 12l1.414 1.414-5.657 5.657a7 7 0 1 1-9.9-9.9l5.658-5.656a5 5 0 0 1 7.07 7.07L12 16.244A3 3 0 1 1 7.757 12l5.657-5.657 1.414 1.414z"/>
+                  </svg>
+                  <span></span>
+                  <button id="clearFileBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+                      <path fill="none" d="M0 0h24v24H0z"/>
+                      <path fill="currentColor" d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"/>
+                    </svg>
+                  </button>
+                </div>
+                <div class="upload_describe">上传txt格式的ID列表创建用户分群</div>
+                <a>下载模板</a>
+              </div>
+            </div>
+            <div class="form_item">
+              <label for="remark">备注</label>
+              <textarea cols="50" rows="5" name="remark" id="remark"></textarea>
+            </div>
           </div>
         </div>
 

@@ -5,25 +5,35 @@ require(['common'], function () {
 
     $('#createBtn').on('click', function () {
       $('#create').css('width', '900px')
+      const $mask = $('<div class="drawer_mask" id="drawerMask"></div>')
+      $('#customerGroup').append($mask)
+      const timer = setTimeout(function () {
+        clearTimeout(timer)
+        $mask.css('opacity', '.3')
+      })
     })
 
     /* ========== create-page ==========*/
 
     const validator = {
       name: {require: {info: '分群显示名不能为空'}},
-      nameId: {require: {info: '分群名称不能为空'}, validate: {regexp: /^[a-zA-Z][0-9a-zA-Z_]*$/, info: '以字母开头, 可包含数字和下划线'},},
+      nameId: {require: {info: '分群名称不能为空'}, validate: {regexp: /^[a-zA-Z][0-9a-zA-Z_]*$/, info: '以字母开头, 可包含数字和下划线'}, target: '#errorTarget'},
     }
 
-    $('#closeBtn').on('click', function () {
-      $('#create').css('width', '0')
+    $('#cancelBtn').on('click', function () {
+      closeDrawer()
     })
 
-    $('#uploadInput').on('input', function () {
-      uploadAjax(getData())
+    $('#closeBtn').on('click', function () {
+      closeDrawer()
     })
 
     $('#formBox').on('input porpertychange', 'input', function (e) {
       $(e.target).data('validate') && validate($(e.target))
+    })
+
+    $('#uploadInput').on('input', function () {
+      uploadAjax(getData())
     })
 
     $('#clearFileBtn').on('click', function () {
@@ -40,6 +50,29 @@ require(['common'], function () {
 
     /* ========== fn ==========*/
 
+    function closeDrawer () {
+      initList()
+      $('#create').css('width', '0')
+      $('#drawerMask').css('opacity', 0)
+      const timer = setTimeout(function () {
+        clearTimeout(timer)
+        $('#drawerMask').remove()
+      }, 600)
+      initCreate()
+    }
+
+    function confirmAjax () {
+      const params = serialize()
+      $http.createGroup({
+        method: 'post',
+        data: params,
+        success: function (res) {
+          if (res.code === 0) closeDrawer()
+        },
+        error: function (err) {},
+      })
+    }
+
     function getData () {
       const file = $('#uploadInput')[0].files[0]
       if (!file) return
@@ -47,6 +80,48 @@ require(['common'], function () {
       data.append('file_content', file)
       data.append('filename', file.name)
       return data
+    }
+
+    function initCreate () {
+      $('#formBox').find('input').each(function () {
+        $(this).val('')
+        $(this).data('validate') && validate($(this), true)
+      })
+      $('#remark').val('')
+      setFileName()
+    }
+
+    function initList () {
+      // 刷新列表
+    }
+
+    function serialize () {
+      const $form = $('#formBox')
+      const $textarea = $('#remark')
+      let params = {}
+      $form.find('input').each(function () {
+        if ($(this).attr('name') && !$(this).attr('disabled')) {
+          params[$(this).attr('name')] = $(this).attr('name') === 'nameId' ? ($('#prefixName').text() + $(this).val()) : $(this).val()
+        }
+      })
+      params[$textarea.attr('name')] = $textarea.val()
+      return params
+    }
+
+    function setFileName (name) {
+      if (!name) {
+        $('#fileName input').val('')
+        $('#fileName span').text('')
+        $('#fileInput input').attr('disabled', false)
+        $('#fileInput').show()
+        $('#fileName').hide()
+      } else {
+        $('#fileName input').val(name)
+        $('#fileName span').text(name)
+        $('#fileName').show()
+        $('#fileInput').hide()
+        $('#fileInput input').val('').attr('disabled', true)
+      }
     }
 
     function uploadAjax (data) {
@@ -63,74 +138,35 @@ require(['common'], function () {
       })
     }
 
-    function confirmAjax () {
-      const params = serialize()
-      $http.createGroup({
-        method: 'post',
-        data: params,
-        success: function (res) {
-
-        },
-        error: function (err) {},
-      })
-    }
-
-    function serialize () {
-      const $form = $('#formBox')
-      const $textarea = $('#remark')
-      let params = {}
-      $form.find('input').each(function () {
-        if ($(this).attr('name') && !$(this).attr('disabled')) {
-          params[$(this).attr('name')] = $(this).val()
-        }
-      })
-      params[$textarea.attr('name')] = $textarea.val()
-      return params
-    }
-
-    function validate ($el) {
+    function validate ($el, reset) {
       let res = true
       let message = ''
-      let $errDom = $el.next()
+      let target = validator[$el.data('validate')].target
+      let $target = target ? $(target) : $el
+      let $errDom = $target.next()
       let require = validator[$el.data('validate')].require
       let validate = validator[$el.data('validate')].validate
 
-      if (require && $el.val() === '') {
-        message = require.info
-        res = false
-      } else if (validate && !validate.regexp.test($el.val())) {
-        message = validate.info
-        res = false
+      if (!reset) {
+        if (require && $el.val() === '') {
+          message = require.info
+          res = false
+        } else if (validate && !validate.regexp.test($el.val())) {
+          message = validate.info
+          res = false
+        }
       }
+
 
       if (!res) {
         !$el.hasClass('has_error') && $el.addClass('has_error')
-        !$errDom.length ? $el.after('<div class="validate_warn">' + message + '</div>') : $errDom.text() !== message ? $errDom.text(message) : ''
+        !$errDom.length ? $target.after('<div class="validate_warn">' + message + '</div>') : $errDom.text() !== message ? $errDom.text(message) : ''
       } else {
         $el.hasClass('has_error') && $el.removeClass('has_error')
         $errDom.length ? $errDom.remove() : ''
       }
 
       return res
-    }
-
-    function setFileName (name) {
-      if (!name) {
-        $('#fileName input').val('')
-        $('#fileName span').text('')
-        $('#fileInput input').attr('disabled', 'false')
-        showDom('#fileInput', '#fileName')
-      } else {
-        $('#fileName input').val(name)
-        $('#fileName span').text(name)
-        showDom('#fileName', '#fileInput')
-        $('#fileInput input').val('').attr('disabled', 'true')
-      }
-    }
-
-    function showDom (show, hide) {
-      $(show).show()
-      $(hide).hide()
     }
   })
 })

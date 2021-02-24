@@ -15,7 +15,7 @@ input {
   padding-left: 12px;
   border-radius: 2px;
   border: 1px solid #d3dce6;
-  font-size: 13px;
+  font-size: 14px;
   color: #777;
   cursor: pointer;
 }
@@ -89,19 +89,25 @@ button:focus {
   width: 0;
   height: 100%;
   z-index: 1;
+  background: white;
   transition: width .6s cubic-bezier(.645,.045,.355,1);
-  box-shadow: 0 0 9px 0 rgb(153 169 191 / 17%);
+  box-shadow: 0 0 15px 0 rgb(153 169 191 / 50%);
 }
 .create_box {
   width: 900px;
   height: 100%;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
+.create_box input {
+  width: 360px;
+}
 .create_header {
+  width: auto;
+  height: auto;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 16px;
   padding: 6px 8px;
   font-size: 16px;
   line-height: 28px;
@@ -111,6 +117,11 @@ button:focus {
 .create_header > button {
   color: #ddd;
   opacity: 70;
+}
+
+.create_body {
+  overflow: auto;
+  flex: 1;
 }
 
 .row_type button {
@@ -130,9 +141,32 @@ button:focus {
   margin: 0 4px;
 }
 .create_form {
-  flex: 1;
-  margin-left: 50px;
-  margin-bottom: 100px;
+  margin: 16px 0 16px 50px;
+}
+.row_name_id > div {
+  width: 376px;
+  display: flex;
+  flex-direction: column;
+}
+.row_name_id > div > div {
+  display: flex;
+}
+.prefix_name {
+  padding: 6px 12px;
+  line-height: 20px;
+  color: #475669;
+  font-weight: 400;
+  font-size: 13px;
+  text-align: center;
+  background-color: #f4f8f9;
+  border: 1px solid #d3dce6;
+  border-right: 0;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.row_name_id input {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 .row_type button::before {
   content: '';
@@ -160,6 +194,7 @@ button:focus {
   display: none;
 }
 .row_upload label {
+  line-height: 16px;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -293,4 +328,16 @@ button:focus {
   border-color: #ff9195;
   outline: 0;
   box-shadow: 0 0 0 2px rgb(252 103 114 / 20%);
+}
+
+.drawer_mask {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,.65);
+  opacity: 0;
+  filter: alpha(opacity=50);
+  z-index: 0;
+  transition: opacity .6s linear;
 }

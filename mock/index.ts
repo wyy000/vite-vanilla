@@ -4,6 +4,15 @@ import {menuList, tableData} from '../mongo'
 
 export default [
   {
+    url: '/create-group',
+    method: 'post',
+    response: ({ query }) => {
+      return {
+        code: 0,
+      }
+    },
+  },
+  {
     url: '/menu-list',
     method: 'get',
     response: ({ query }) => {
