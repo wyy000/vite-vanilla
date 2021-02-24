@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>customerGroup</title>
-  <link rel="stylesheet" href="/assets/css/customerGroup.css">
+  <link rel="stylesheet" href="./assets/css/customerGroup.css">
 </head>
 <body>
   <div class="customerGroup" id="customerGroup">
@@ -44,7 +44,7 @@
               <div>
                 <div id="errorTarget">
                   <span class="prefix_name" id="prefixName">user_group_</span>
-                  <input type="text" name="nameId" id="groupName" placeholder="以字母开头, 可包含数字和下划线" data-validate="nameId" />
+                  <input type="text" name="nameId" id="groupName" placeholder="以字母开头, 可包含数字和下划线" autocomplete="off" data-validate="nameId" />
                 </div>
               </div>
             </div>
@@ -66,14 +66,14 @@
               <div>
                 <div id="fileInput">
                   <input type="file" name="file" accept="text/plain,.txt" id="uploadInput" />
-                  <button>
+                  <div class="upload_btn">
                     <label for="uploadInput">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                       </svg>
                       <span>上传文件</span>
                     </label>
-                  </button>
+                  </div>
                 </div>
                 <div id="fileName" style="display: none;">
                   <input type="text" name="upload_filename" readonly="readonly" value />
@@ -108,6 +108,6 @@
     </div>
   </div>
 
-  <script data-main="/require/js/script/customerGroup.js" src="/require/js/lib/require.js"></script>
+  <script data-main="./require/js/script/customerGroup.js" src="./require/js/lib/require.js"></script>
 </body>
 </html>

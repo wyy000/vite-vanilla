@@ -11,6 +11,7 @@ body {
 input {
   appearance: none;
   width: 288px;
+  height: 30px;
   line-height: 30px;
   padding-left: 12px;
   border-radius: 2px;
@@ -202,7 +203,8 @@ button:focus {
 .row_upload label:hover {
   color: #21cc96;
 }
-#fileInput button {
+#fileInput .upload_btn {
+  width: 110px;
   border-radius: 4px;
   font-weight: 400;
   white-space: nowrap;
@@ -212,7 +214,7 @@ button:focus {
   border: 1px solid #d3dce6;
   transition: all .3s;
 }
-#fileInput button:hover {
+#fileInput .upload_btn:hover {
   color: #21cc96;
   background-color: #fff;
   border-color: #21cc96;

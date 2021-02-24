@@ -4,6 +4,7 @@ require(['common'], function () {
     /* ========== list-page ==========*/
 
     $('#createBtn').on('click', function () {
+      initCreate()
       $('#create').css('width', '900px')
       const $mask = $('<div class="drawer_mask" id="drawerMask"></div>')
       $('#customerGroup').append($mask)
@@ -28,12 +29,9 @@ require(['common'], function () {
       closeDrawer()
     })
 
-    $('#formBox').on('input porpertychange', 'input', function (e) {
+    $('#formBox').on('input', 'input', function (e) {
       $(e.target).data('validate') && validate($(e.target))
-    })
-
-    $('#uploadInput').on('input', function () {
-      uploadAjax(getData())
+      $(e.target).attr('name') === 'file' && uploadAjax(getData())
     })
 
     $('#clearFileBtn').on('click', function () {
@@ -58,7 +56,6 @@ require(['common'], function () {
         clearTimeout(timer)
         $('#drawerMask').remove()
       }, 600)
-      initCreate()
     }
 
     function confirmAjax () {
@@ -126,7 +123,7 @@ require(['common'], function () {
 
     function uploadAjax (data) {
       $http.uploadFile({
-        data,
+        data: data,
         type: 'POST',
         dataType: 'JSON',
         processData: false,

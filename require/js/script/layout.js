@@ -5,7 +5,7 @@ define(function () {
     for (it of navList) {
       res += `<button data-path="${it.path}">${it.name}</button>`
     }
-    let $nav = $($('<div class="nav_list""></div>')[0]).html(res)
+    let $nav = $($('<div class="nav_list"></div>')[0]).html(res)
     node.append($nav)
 
     $nav

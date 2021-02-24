@@ -2,35 +2,49 @@ define(['api'], function () {
   const createGroup = function (config) {
     $.ajax({
       url: '/create-group',
-      ...config,
+      type: config.type,
+      data: config.data,
+      success: config.success,
+      error: config.error,
     })
   }
 
   const menuList = function (config) {
     $.ajax({
       url: '/menu-list',
-      ...config,
+      type: config.type,
+      data: config.data,
+      success: config.success,
+      error: config.error,
     })
   }
 
   const tableData = function (config) {
     $.ajax({
       url: '/table-data',
-      ...config,
+      type: config.type,
+      data: config.data,
+      success: config.success,
+      error: config.error,
     })
   }
 
   const uploadFile = function (config) {
     $.ajax({
       url: '/upload-file',
-      ...config,
+      type: 'POST',
+      dataType: 'JSON',
+      processData: false,
+      contentType: false,
+      success: config.success,
+      error: config.error,
     })
   }
 
   return {
-    createGroup,
-    menuList,
-    tableData,
-    uploadFile,
+    createGroup: createGroup,
+    menuList: menuList,
+    tableData: tableData,
+    uploadFile: uploadFile,
   }
 })
