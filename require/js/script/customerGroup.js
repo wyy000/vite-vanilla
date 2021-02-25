@@ -14,7 +14,7 @@ require(['common'], function () {
       })
     })
 
-    /* ========== create-page ==========*/
+    /* ========== form-page ==========*/
 
     const validator = {
       name: {require: {info: '分群显示名不能为空'}},
@@ -28,6 +28,10 @@ require(['common'], function () {
 
     $('#closeBtn').on('click', function () {
       closeDrawer()
+    })
+
+    $form.on('input', 'input', function (e) {
+      $(e.target).attr('name') === 'file' && uploadAjax(getData())
     })
 
     $form.on('focus', 'input', function (e) {
@@ -60,8 +64,7 @@ require(['common'], function () {
     /* ========== fn ==========*/
 
     function changeValidate (e) {
-      $(e.target).data('validate') && validate($(e.target))
-      $(e.target).attr('name') === 'file' && uploadAjax(getData())
+      validate($(e.target))
     }
 
     function closeDrawer () {
