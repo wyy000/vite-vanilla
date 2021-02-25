@@ -172,13 +172,27 @@ require(['common'], function () {
         }
       }
 
-
       if (!res) {
         !$el.hasClass('has_error') && $el.addClass('has_error')
-        !$errDom.length ? $target.after('<div class="validate_warn">' + message + '</div>') : $errDom.text() !== message ? $errDom.text(message) : ''
+        !$errDom.length && $target.after('<div class="validate_warn" id="validate_warn"><span>' + message + '</span></div>')
+        $errDom = $target.next()
+        const $errText = $($errDom.find('span')[0])
+        $errText.text() !== message && $errText.text(message)
+
+        setTimeout(function () {
+          $errDom.css('transition', 'height .1s linear, opacity .1s linear .1s').css('opacity', 1).css('height', '20px')
+          $errText.css('transition', 'top .1s cubic-bezier(.215,.61,.355,1) .1s').css('top', 0).css('color', '#fc6772')
+        })
       } else {
         $el.hasClass('has_error') && $el.removeClass('has_error')
-        $errDom.length ? $errDom.remove() : ''
+        if ($errDom.length) {
+          $($errDom.find('span')[0]).css('transition', 'top .2s cubic-bezier(.215,.61,.355,1)').css('top', '-100%').css('color', '#8492a6')
+          $errDom.css('transition', 'height .2s linear .1s, opacity .2s linear').css('opacity', 0).css('height', 0)
+
+          setTimeout(function () {
+            $errDom.remove()
+          }, 300)
+        }
       }
 
       return res

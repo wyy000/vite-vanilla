@@ -317,11 +317,15 @@ button:focus {
 
 .validate_warn {
   color: #fc6772;
-  clear: both;
-  min-height: 22px;
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
   font-size: 14px;
-  line-height: 1.5;
-  transition: color .3s cubic-bezier(.215,.61,.355,1);
+}
+.validate_warn span {
+  position: relative;
+  top: -100%;
+  line-height: 24px;
 }
 .has_error {
   border-color: #fc6772;
