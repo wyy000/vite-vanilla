@@ -91,7 +91,7 @@ button:focus {
   height: 100%;
   z-index: 1;
   background: white;
-  transition: width .6s cubic-bezier(.645,.045,.355,1);
+  transition: width .4s cubic-bezier(.645,.045,.355,1);
   box-shadow: 0 0 15px 0 rgb(153 169 191 / 50%);
 }
 .create_box {
@@ -226,7 +226,7 @@ button:focus {
   margin-left: 6px;
 }
 #fileName {
-  padding: 4px;
+  padding: 6px;
   color: #8492a6;
   font-size: 14px;
   line-height: 20px;
@@ -341,5 +341,5 @@ button:focus {
   opacity: 0;
   filter: alpha(opacity=50);
   z-index: 0;
-  transition: opacity .6s linear;
+  transition: opacity .4s linear;
 }

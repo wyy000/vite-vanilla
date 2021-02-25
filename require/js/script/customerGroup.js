@@ -20,6 +20,7 @@ require(['common'], function () {
       name: {require: {info: '分群显示名不能为空'}},
       nameId: {require: {info: '分群名称不能为空'}, validate: {regexp: /^[a-zA-Z][0-9a-zA-Z_]*$/, info: '以字母开头, 可包含数字和下划线'}, target: '#errorTarget'},
     }
+    const $form = $('#formBox')
 
     $('#cancelBtn').on('click', function () {
       closeDrawer()
@@ -29,9 +30,19 @@ require(['common'], function () {
       closeDrawer()
     })
 
-    $('#formBox').on('input', 'input', function (e) {
-      $(e.target).data('validate') && validate($(e.target))
-      $(e.target).attr('name') === 'file' && uploadAjax(getData())
+    $form.on('focus', 'input', function (e) {
+      if ($(e.target).data('validate')) {
+        const timer = setTimeout(function () {
+          clearTimeout(timer)
+          $form.on('input', 'input', changeValidate)
+        })
+      }
+    })
+
+    $form.on('blur', 'input', function (e) {
+      if ($(e.target).data('validate')) {
+        $form.off('input', 'input', changeValidate)
+      }
     })
 
     $('#clearFileBtn').on('click', function () {
@@ -40,13 +51,18 @@ require(['common'], function () {
 
     $('#confirmBtn').on('click', function () {
       let res = true
-      $('#formBox').find('input').each(function () {
+      $form.find('input').each(function () {
         if ($(this).data('validate') && !validate($(this))) res = false
       })
       res && confirmAjax()
     })
 
     /* ========== fn ==========*/
+
+    function changeValidate (e) {
+      $(e.target).data('validate') && validate($(e.target))
+      $(e.target).attr('name') === 'file' && uploadAjax(getData())
+    }
 
     function closeDrawer () {
       initList()
@@ -55,7 +71,7 @@ require(['common'], function () {
       const timer = setTimeout(function () {
         clearTimeout(timer)
         $('#drawerMask').remove()
-      }, 600)
+      }, 400)
     }
 
     function confirmAjax () {
@@ -80,7 +96,7 @@ require(['common'], function () {
     }
 
     function initCreate () {
-      $('#formBox').find('input').each(function () {
+      $form.find('input').each(function () {
         $(this).val('')
         $(this).data('validate') && validate($(this), true)
       })
@@ -93,7 +109,6 @@ require(['common'], function () {
     }
 
     function serialize () {
-      const $form = $('#formBox')
       const $textarea = $('#remark')
       let params = {}
       $form.find('input').each(function () {
