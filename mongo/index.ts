@@ -4,6 +4,7 @@ export const menuList = [
   {name: 'table', path: 'table.html'},
   {name: 'customerGroup', path: 'customerGroup.html', active: true},
   {name: 'tableSort', path: 'tableSort.html'},
+  {name: 'select', path: 'select.html'},
 ]
 
 export const tableData = Array.from({length: 20}).map((it, idx) => ({

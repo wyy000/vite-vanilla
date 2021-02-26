@@ -14,8 +14,29 @@ require(['common'], function () {
       })
     })
 
-    initList()
+    // initList()
 
+    /* Results in:
+        <div class="wrapper">
+          { length }
+          { filter }
+          { table }
+          { info }
+          { paging }
+        </div>
+    */
+    $('#table').DataTable({
+      "dom": '<"wrapper"ftip>',
+      "ajax": "/user-groups",
+      "columns": [
+        {"data": "cname"},
+        {"data": "id"},
+        {"data": "user_count"},
+        {"data": "create_time"},
+        {"data": "user_name"},
+        {"data": "operation"}
+      ]
+    })
     /* ========== form-page ==========*/
 
     const validator = {
@@ -118,9 +139,9 @@ require(['common'], function () {
 
           $tbody.empty()
           $tbody.append(tbody)
-          $table.trigger("updateCache")
-          $table.trigger("update")
-          $table.tablesorter({theme: 'blue'})
+          // $table.trigger("updateCache")
+          // $table.trigger("update")
+          // $table.tablesorter({theme: 'blue'})
         },
         error: function (err) {},
       })
@@ -140,7 +161,7 @@ require(['common'], function () {
         success: function (res) {
           let thead = ''
           for (let col of res.data) {
-            thead += `<td>${col.name}</td>`
+            thead += `<th ${name === '操作' ? 'disabled' : ''}>${col.name}</th>`
           }
           $('#thead').html(`<tr>${thead}</tr>`)
 

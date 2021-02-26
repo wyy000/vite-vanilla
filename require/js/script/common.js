@@ -3,5 +3,7 @@ require.config({
     "jquery": '../lib/jquery-3.5.1.min',
     "echarts": '../lib/echarts',
     "tablesorter": '../lib/jquery.tablesorter.min',
+    "bootstrap-select": '../../../plugins/bootstrap-select/bootstrap-select.min.js',
+    "datatables": '../../../plugins/datatables-1.10.23/datatables.min.js',
   }
 })
