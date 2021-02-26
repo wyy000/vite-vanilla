@@ -3,6 +3,10 @@ require(['common'], function () {
 
     /* ========== list-page ==========*/
 
+    $('#search').on('input', function () {
+      table.search(this.value).draw()
+    })
+
     $('#createBtn').on('click', function () {
       initCreate()
       $('#create').css('width', '900px')
@@ -18,15 +22,14 @@ require(['common'], function () {
 
     /* Results in:
         <div class="wrapper">
-          { length }
-          { filter }
           { table }
           { info }
+          { length }
           { paging }
         </div>
     */
-    $('#table').DataTable({
-      "dom": '<"wrapper"ftip>',
+    var table = $('#table').DataTable({
+      "dom": '<"wrapper"tip>',
       "ajax": "/user-groups",
       "columns": [
         {"data": "cname"},
@@ -37,6 +40,7 @@ require(['common'], function () {
         {"data": "operation"}
       ]
     })
+
     /* ========== form-page ==========*/
 
     const validator = {
