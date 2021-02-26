@@ -179,10 +179,8 @@ require(['common'], function () {
         const $errText = $($errDom.find('span')[0])
         $errText.text() !== message && $errText.text(message)
 
-        setTimeout(function () {
-          $errDom.css('transition', 'height .1s linear, opacity .1s linear .1s').css('opacity', 1).css('height', '20px')
-          $errText.css('transition', 'top .1s cubic-bezier(.215,.61,.355,1) .1s').css('top', 0).css('color', '#fc6772')
-        })
+        $errDom.css('transition', 'height .1s linear, opacity .1s linear .1s').css('opacity', 1).css('height', '20px')
+        $errText.css('transition', 'top .1s cubic-bezier(.215,.61,.355,1) .1s').css('top', 0).css('color', '#fc6772')
       } else {
         $el.hasClass('has_error') && $el.removeClass('has_error')
         if ($errDom.length) {
@@ -190,7 +188,7 @@ require(['common'], function () {
           $errDom.css('transition', 'height .2s linear .1s, opacity .2s linear').css('opacity', 0).css('height', 0)
 
           setTimeout(function () {
-            $errDom.remove()
+            !$el.hasClass('has_error') && $errDom.remove()
           }, 300)
         }
       }
