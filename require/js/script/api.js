@@ -41,10 +41,26 @@ define(['api'], function () {
     })
   }
 
+  const userColumns = function (config) {
+    $.ajax({
+      url: '/user-columns',
+      ...config,
+    })
+  }
+
+  const userGroups = function (config) {
+    $.ajax({
+      url: '/user-groups',
+      ...config,
+    })
+  }
+
   return {
     createGroup: createGroup,
     menuList: menuList,
     tableData: tableData,
     uploadFile: uploadFile,
+    userGroups: userGroups,
+    userColumns,
   }
 })

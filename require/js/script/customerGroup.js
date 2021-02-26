@@ -1,5 +1,5 @@
 require(['common'], function () {
-  require(['jquery', 'api'], function ($, $http) {
+  require(['api'], function ($http) {
 
     /* ========== list-page ==========*/
 
@@ -13,6 +13,8 @@ require(['common'], function () {
         $mask.css('opacity', '.3')
       })
     })
+
+    initList()
 
     /* ========== form-page ==========*/
 
@@ -98,6 +100,32 @@ require(['common'], function () {
       return data
     }
 
+    function getListData (cols) {
+      $http.userGroups({
+        success: function (res) {
+          let tbody = ''
+          let tr = ''
+          for (let row of res.data) {
+            for (let col of cols) {
+              tr += `<td>${row[col.props]}</td>`
+            }
+            tbody += `<tr>${tr}</tr>`
+            tr = ''
+          }
+
+          const $tbody = $('#tbody')
+          const $table = $('#table')
+
+          $tbody.empty()
+          $tbody.append(tbody)
+          $table.trigger("updateCache")
+          $table.trigger("update")
+          $table.tablesorter({theme: 'blue'})
+        },
+        error: function (err) {},
+      })
+    }
+
     function initCreate () {
       $form.find('input').each(function () {
         $(this).val('')
@@ -108,7 +136,18 @@ require(['common'], function () {
     }
 
     function initList () {
-      // 刷新列表
+      $http.userColumns({
+        success: function (res) {
+          let thead = ''
+          for (let col of res.data) {
+            thead += `<td>${col.name}</td>`
+          }
+          $('#thead').html(`<tr>${thead}</tr>`)
+
+          getListData(res.data)
+        },
+        error: function (err) {},
+      })
     }
 
     function serialize () {

@@ -1,6 +1,6 @@
 import { MockMethod } from 'vite-plugin-mock'
 
-import {menuList, tableData} from '../mongo'
+import {menuList, tableData, userColumns, userGroups} from '../mongo'
 
 export default [
   {
@@ -31,6 +31,22 @@ export default [
         fileName: 'demo.txt',
       }
     },
+  },
+  {
+    url: '/user-columns',
+    method: 'get',
+    response: () => ({
+      code: 0,
+      data: userColumns,
+    }),
+  },
+  {
+    url: '/user-groups',
+    method: 'get',
+    response: () => ({
+      code: 0,
+      data: userGroups,
+    }),
   },
   {
     url: '/table-data',
