@@ -45,7 +45,8 @@ export default [
     method: 'get',
     response: () => ({
       code: 0,
-      data: userGroups,
+      data: [...userGroups, ...userGroups, ...userGroups],
+      total: userGroups.length * 3,
     }),
   },
   {

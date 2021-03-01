@@ -1,7 +1,9 @@
 require(['common'], function () {
-  require(['api'], function ($http) {
+  require(['jquery', 'api', 'datatables'], function ($, $http) {
 
     /* ========== list-page ==========*/
+
+    let table
 
     $('#search').on('input', function () {
       table.search(this.value).draw()
@@ -18,28 +20,7 @@ require(['common'], function () {
       })
     })
 
-    // initList()
-
-    /* Results in:
-        <div class="wrapper">
-          { table }
-          { info }
-          { length }
-          { paging }
-        </div>
-    */
-    var table = $('#table').DataTable({
-      "dom": '<"wrapper"tip>',
-      "ajax": "/user-groups",
-      "columns": [
-        {"data": "cname"},
-        {"data": "id"},
-        {"data": "user_count"},
-        {"data": "create_time"},
-        {"data": "user_name"},
-        {"data": "operation"}
-      ]
-    })
+    getColumnAjax()
 
     /* ========== form-page ==========*/
 
@@ -95,7 +76,7 @@ require(['common'], function () {
     }
 
     function closeDrawer () {
-      initList()
+      getColumnAjax()
       $('#create').css('width', '0')
       $('#drawerMask').css('opacity', 0)
       const timer = setTimeout(function () {
@@ -116,6 +97,21 @@ require(['common'], function () {
       })
     }
 
+    function getColumnAjax () {
+      $http.userColumns({
+        success: function (res) {
+          let thead = ''
+          for (let col of res.data) {
+            thead += `<th ${name === '操作' ? 'disabled' : ''}>${col.name}</th>`
+          }
+          $('#thead').html(`<tr>${thead}</tr>`)
+
+          getListAjax(res.data)
+        },
+        error: function (err) {},
+      })
+    }
+
     function getData () {
       const file = $('#uploadInput')[0].files[0]
       if (!file) return
@@ -125,29 +121,80 @@ require(['common'], function () {
       return data
     }
 
-    function getListData (cols) {
-      $http.userGroups({
-        success: function (res) {
-          let tbody = ''
-          let tr = ''
-          for (let row of res.data) {
-            for (let col of cols) {
-              tr += `<td>${row[col.props]}</td>`
+    function getListAjax (cols) {
+      /* Results in:
+          { table }
+          { info }
+          { paging }
+      */
+      const columns = cols.map(it => {
+        it.className = 'dt-head-left'
+        switch (it.data) {
+          case 'cname':
+            it.render = function (data, type, row) {
+              const html = "\n" +
+                "        <div class='cell_cname'>\n" +
+                "          <div class='cell_data_cname'>" + row.cname + "</div>\n" +
+                "          <span class='cell_data_name'>" + row.name + "</span>\n" +
+                "        </div>"
+              return html
             }
-            tbody += `<tr>${tr}</tr>`
-            tr = ''
-          }
+          default:
+        }
+        return it
+      })
 
-          const $tbody = $('#tbody')
-          const $table = $('#table')
+      const left = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor">\n' +
+        '  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />\n' +
+        '</svg>'
+      const right = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor">\n' +
+        '  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />\n' +
+        '</svg>'
 
-          $tbody.empty()
-          $tbody.append(tbody)
-          // $table.trigger("updateCache")
-          // $table.trigger("update")
-          // $table.tablesorter({theme: 'blue'})
+      table = $('#table').DataTable({
+        dom: '<"wrapper"t><"table_footer"ip>',
+        ajax: "/user-groups",
+        destroy: true,
+        pageLength: 10,
+        fixedHeader: true,
+        autoWidth: false,
+        language: {
+          lengthMenu: "每页显示 _MENU_记录",
+          zeroRecords: "没有匹配的数据",
+          info: "第_PAGE_页 共 _PAGES_页 ( 共\_TOTAL\_条记录 )",
+          infoEmpty: "共\_TOTAL\_条记录",
+          search: "查找",
+          infoFiltered: "(从 _MAX_条记录中过滤)",
+          paginate: { "first": "首页 ", "last": "末页", "next": right, "previous": left }
         },
-        error: function (err) {},
+        columns: [
+          ...columns,
+          {
+            data: null,
+            title: '操作',
+            sorting: false,
+            className: 'dt-head-left',
+            render: function (data, type, row, setting) {
+              const html = "<div class='row_btn_box'>\n" +
+                "            <button class='row_btn download_btn' onclick='handleDownload(JSON.stringify(" + JSON.stringify(row) + "))'>\n" +
+                "              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'>\n" +
+                "                <path fill='none' d='M0 0h24v24H0z'/>\n" +
+                "                <path fill='currentColor' d='M13 10h5l-6 6-6-6h5V3h2v7zm-9 9h16v-7h2v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-8h2v7z'/>\n" +
+                "              </svg>\n" +
+                "              <span>下载</span>\n" +
+                "            </button>\n" +
+                "            <button class='row_btn delete_btn' onclick='handleDelete(JSON.stringify(" + JSON.stringify(row) + "))'>\n" +
+                "              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'>\n" +
+                "                <path fill='none' d='M0 0h24v24H0z'/>\n" +
+                "                <path fill='currentColor' d='M17 6h5v2h-2v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V8H2V6h5V3a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v3zm1 2H6v12h12V8zm-9 3h2v6H9v-6zm4 0h2v6h-2v-6zM9 4v2h6V4H9z'/>\n" +
+                "              </svg>\n" +
+                "              <span>删除</span>\n" +
+                "            </button>\n" +
+                "          </div>"
+              return html
+            }
+          }
+        ],
       })
     }
 
@@ -158,21 +205,6 @@ require(['common'], function () {
       })
       $('#remark').val('')
       setFileName()
-    }
-
-    function initList () {
-      $http.userColumns({
-        success: function (res) {
-          let thead = ''
-          for (let col of res.data) {
-            thead += `<th ${name === '操作' ? 'disabled' : ''}>${col.name}</th>`
-          }
-          $('#thead').html(`<tr>${thead}</tr>`)
-
-          getListData(res.data)
-        },
-        error: function (err) {},
-      })
     }
 
     function serialize () {
