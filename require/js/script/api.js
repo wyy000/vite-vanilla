@@ -44,14 +44,20 @@ define(['api'], function () {
   const userColumns = function (config) {
     $.ajax({
       url: '/user-columns',
-      ...config,
+      type: config.type,
+      data: config.data,
+      success: config.success,
+      error: config.error,
     })
   }
 
   const userGroups = function (config) {
     $.ajax({
       url: '/user-groups',
-      ...config,
+      type: config.type,
+      data: config.data,
+      success: config.success,
+      error: config.error,
     })
   }
 
@@ -61,6 +67,6 @@ define(['api'], function () {
     tableData: tableData,
     uploadFile: uploadFile,
     userGroups: userGroups,
-    userColumns,
+    userColumns: userColumns,
   }
 })

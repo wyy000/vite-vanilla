@@ -42,12 +42,38 @@ export default [
   },
   {
     url: '/user-groups',
-    method: 'get',
-    response: () => ({
-      code: 0,
-      data: [...userGroups, ...userGroups, ...userGroups],
-      total: userGroups.length * 3,
-    }),
+    // method: 'post',
+    response: ({query, body}) => {
+      let res = []
+
+      for (let i = 0; i < userGroups.length; i++) {
+        if (!query['search[value]']) {
+          res.push(userGroups[i])
+        } else {
+          for (let j = 0; j < userColumns.length; j++) {
+            if (String(userGroups[i][userColumns[j]['data']]).indexOf(query['search[value]']) >= 0) {
+              res.push(userGroups[i])
+              break
+            }
+          }
+        }
+      }
+
+      if (query['order[0][dir]']) {
+        res.sort((a, b) => {
+          let col = userColumns[query['order[0][column]']].data
+          // return query['order[0][dir]'] === 'desc' ? -(a[col] - b[col]) : (a[col] - b[col])
+          return query['order[0][dir]'] === 'desc' ? a[col].localeCompare(b[col],'zh-CN') : b[col].localeCompare(a[col],'zh-CN')
+        })
+      }
+
+      return ({
+        code: 0,
+        data: res.slice(query.start, query.start + query.length),
+        recordsTotal: userGroups.length,
+        recordsFiltered: res.length,
+      })
+    },
   },
   {
     url: '/table-data',

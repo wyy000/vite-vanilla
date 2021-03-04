@@ -5,8 +5,8 @@ require(['common'], function () {
 
     let table
 
-    $('#search').on('input', function () {
-      table.search(this.value).draw()
+    $('#searchBtn').on('click', function () {
+      table.search($('#search').val()).draw()
     })
 
     $('#createBtn').on('click', function () {
@@ -101,10 +101,10 @@ require(['common'], function () {
       $http.userColumns({
         success: function (res) {
           let thead = ''
-          for (let col of res.data) {
-            thead += `<th ${name === '操作' ? 'disabled' : ''}>${col.name}</th>`
+          for (let i = 0; i < res.data.length; i++) {
+            thead += '<th>' + res.data[i].name + '</th>'
           }
-          $('#thead').html(`<tr>${thead}</tr>`)
+          $('#thead').html('<tr>' + thead + '</tr>')
 
           getListAjax(res.data)
         },
@@ -127,11 +127,11 @@ require(['common'], function () {
           { info }
           { paging }
       */
-      const columns = cols.map(it => {
-        it.className = 'dt-head-left'
-        switch (it.data) {
+      for (let i = 0; i < cols.length; i++) {
+        cols[i].className = 'dt-head-left'
+        switch (cols[i].data) {
           case 'cname':
-            it.render = function (data, type, row) {
+            cols[i].render = function (data, type, row) {
               const html = "\n" +
                 "        <div class='cell_cname'>\n" +
                 "          <div class='cell_data_cname'>" + row.cname + "</div>\n" +
@@ -141,8 +141,7 @@ require(['common'], function () {
             }
           default:
         }
-        return it
-      })
+      }
 
       const left = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor">\n' +
         '  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />\n' +
@@ -153,11 +152,28 @@ require(['common'], function () {
 
       table = $('#table').DataTable({
         dom: '<"wrapper"t><"table_footer"ip>',
-        ajax: "/user-groups",
+        ajax: {
+          url: '/user-groups',
+          type: 'get',
+          dataType: 'json',
+          data: function (param) {
+            delete param.columns
+            let searchParams= {
+              pageNumber : param.start === 0 ? 1 : (param.start/param.length + 1),
+              pageSize : param.length,
+            }
+            // let params = {...d, ...searchParams}
+            // if (searchParams) $.extend(d, searchParams)
+            return {...param, ...searchParams}
+          },
+        },
         destroy: true,
-        pageLength: 10,
+        pageLength: 5,
         fixedHeader: true,
         autoWidth: false,
+        processing: true,
+        serverSide: true,
+        paging: true,
         language: {
           lengthMenu: "每页显示 _MENU_记录",
           zeroRecords: "没有匹配的数据",
@@ -167,8 +183,7 @@ require(['common'], function () {
           infoFiltered: "(从 _MAX_条记录中过滤)",
           paginate: { "first": "首页 ", "last": "末页", "next": right, "previous": left }
         },
-        columns: [
-          ...columns,
+        columns: cols.concat([
           {
             data: null,
             title: '操作',
@@ -194,7 +209,7 @@ require(['common'], function () {
               return html
             }
           }
-        ],
+        ]),
       })
     }
 
