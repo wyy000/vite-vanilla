@@ -87,7 +87,8 @@ button:focus {
 .table_box {
   padding: 0 20px;
 }
-#createBtn {
+#createBtn,
+#searchBtn {
   display: flex;
   align-items: center;
   margin-left: 20px;
@@ -163,7 +164,7 @@ button:focus {
   right: 0;
   width: 0;
   height: 100%;
-  z-index: 1;
+  z-index: 20;
   background: white;
   transition: width .4s cubic-bezier(.645,.045,.355,1);
   box-shadow: 0 0 15px 0 rgb(153 169 191 / 50%);
@@ -418,6 +419,6 @@ button:focus {
   background-color: rgba(0,0,0,.65);
   opacity: 0;
   filter: alpha(opacity=50);
-  z-index: 0;
+  z-index: 10;
   transition: opacity .4s linear;
 }
