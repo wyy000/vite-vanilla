@@ -7,33 +7,49 @@ require(['common'], function () {
         let res = treeData(data.data)
         let dom = treeDom(res, true)
         $('#tree').html(dom)
+        initTree()
       },
       error: function () {},
+    })
+
+    $('#confirmBtn').on('click', function () {
+      let arr = []
+      $('#tree li[class="selected"]').each(function () {
+        arr.push($(this).data('id'))
+      })
+      console.log(arr)
     })
 
     $('#tree').on('click', '.item_box', function (e) {
       e.stopPropagation()
 
-      if ($(e.target).hasClass('collapse_btn')) {
-        let $box = $(e.target).parents('li:eq(0)').children('.collapse_box')
-        let $ul = $box.children('ul')
-        let height = $box.height()
-        !height ? $(e.target).css('transform', 'rotate(180deg)') : $(e.target).css('transform', 'rotate(0)')
-        return height ? $box.css('height', 0) : $box.css('height', $ul.height() + 'px')
-      }
-
       let $el = $(e.currentTarget)
       let $pli = $el.parent('li')
       let selected = $pli.hasClass('selected')
+      let $node = $(e.target)
+
+      if ($node.hasClass('icon') ||
+        $node.hasClass('collapse_btn') ||
+        $node.parent('.collapse_btn').length > 0 ||
+        ($node.hasClass('item_box') && $node.siblings('.collapse_box').children('ul').length > 0)) {
+        let $box =  $el.siblings('.collapse_box')
+        let $svg = $el.find('.collapse_btn')
+        let height = $box.height()
+        !height ? $svg.css('transform', 'rotate(180deg)') : $svg.css('transform', 'rotate(0deg)')
+        return height ? $box.css('height', 0) : $box.css('height', $box.children('ul').height() + 'px')
+      } else if ($node.hasClass('item_box')) {
+        return
+      }
 
       if ($el.parents('ul:eq(0)').hasClass('level_one')) {
         $el.siblings('.collapse_box').children('ul').children('li').each(function () {
           let $this = $(this)
-          selected ? $this.removeClass('selected') : ($this.hasClass('selected') || $this.addClass('selected'))
+          selected ? $this.removeClass('selected').removeClass('checked').addClass('checked') : $this.removeClass('checked').removeClass('selected').addClass('selected')
         })
+        !selected && !$el.siblings('.collapse_box').height() && $el.click()
       }
 
-      selected ? $pli.removeClass('selected') : $pli.addClass('selected')
+      selected ? $pli.removeClass('selected').removeClass('checked').addClass('checked') : $pli.removeClass('checked').removeClass('selected').addClass('selected')
 
       if (!$el.parents('ul:eq(0)').hasClass('level_one')) {
         let $li = $el.parents('li:eq(1)')
@@ -46,17 +62,29 @@ require(['common'], function () {
           if ($this.hasClass('selected'))
             checkedAll = false
         })
-        $li.hasClass('selected') ? (checkedAll && $li.removeClass('selected')) : ((!checkedAll || selectedAll) && $li.addClass('selected'))
+        $li.hasClass('selected') ? (checkedAll && $li.removeClass('selected').removeClass('checked').addClass('checked'))
+          : ((!checkedAll || selectedAll) && $li.removeClass('checked').removeClass('selected').addClass('selected'))
       }
     })
+
+    function initTree () {
+      $('.collapse_box').each(function () {
+        let $this = $(this)
+        let height = $this.height()
+        if (height) {
+          $this.css('height', height - 1 + 'px').css('height', height + 'px')
+          $this.siblings('.item_box').children('.icon').children('svg').css('transform', 'rotate(180deg)')
+        }
+      })
+    }
 
     function treeDom (arr, root) {
       const icon = {
         close: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" class="collapse_btn">\n' +
           '  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />\n' +
           '</svg>',
-        open: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" class="collapse_btn">\n' +
-          '  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />\n' +
+        open: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" class="collapse_btn" style="transform: rotate(179deg);">\n' +
+          '  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />\n' +
           '</svg>',
       }
       const stateIcon = {
@@ -72,15 +100,13 @@ require(['common'], function () {
 
       let str = ''
       for (let i = 0; i < arr.length; i++) {
-        str += '<li class="' + (arr[i].state ? arr[i].state : 'checked') + ' collapse">\n' +
+        str += '<li class="' + (arr[i].state ? arr[i].state : 'checked') + '" data-id="' + arr[i].id + '">\n' +
           '  <div class="item_box">\n' +
-          '    <div class="icon">' + (arr[i].nodes ? icon[arr[i].nodes.length > 0 ? 'close' : 'open'] : '') + '</div>\n' +
+          '    <div class="icon">' + (arr[i].nodes && arr[i].nodes.length > 0 ? icon[arr[i].collapse ? 'close' : 'open'] : '') + '</div>\n' +
           '    <div class="state_icon">' + stateIcon['checked'] + stateIcon['selected'] + '</div>\n' +
           '    <div class="context">' + arr[i].num + '</div>\n' +
           '  </div>\n' +
-          '  <div class="collapse_box">' +
-          ((arr[i].nodes && arr[i].nodes.length > 0) ? treeDom(arr[i].nodes) : '') +
-          '  </div>' +
+          '  <div class="collapse_box" style="height:' + (arr[i].collapse === false ? 'auto' : 0) + ';">' + ((arr[i].nodes && arr[i].nodes.length > 0) ? treeDom(arr[i].nodes) : '') + '</div>\n' +
           '</li>\n'
       }
 
@@ -88,11 +114,26 @@ require(['common'], function () {
     }
 
     function treeData (arr) {
-      let res = arr.filter(it => it.pid === 0).map(it => {
-        it.nodes = []
-        return it
-      })
-      arr.forEach(it => it.pid && res.find(t => it.pid === t.id).nodes.push(it))
+      let res = []
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i].pid === 0) {
+          arr[i].nodes = []
+          arr[i].collapse = true
+          res.push(arr[i])
+          arr.splice(i, 1)
+          i--
+        }
+      }
+
+      for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < res.length; j++) {
+          if (arr[i].pid === res[j].id) {
+            res[j].nodes.push(arr[i])
+            if (arr[i].state === 'selected') res[j].collapse = false
+          }
+        }
+      }
+
       return res
     }
   })

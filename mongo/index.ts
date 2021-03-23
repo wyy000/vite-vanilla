@@ -23,6 +23,7 @@ export const treeData = Array.from({length: 6}).map((it, idx) => ({
   num: Math.random().toString().substr(2),
   pid: Math.ceil(Math.random() * 5),
   id: idx + 6,
+  state: idx === 2 ? 'selected' : 'checked',
 })))
 
 export const userColumns = [

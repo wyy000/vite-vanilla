@@ -45,7 +45,7 @@ li {
   justify-content: center;
 }
 
-.item_box .item_context .state_icon {
+.item_box .state_icon {
   display: flex;
   width: 30px;
   justify-content: center;
