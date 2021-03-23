@@ -1,0 +1,85 @@
+ul,
+li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#tree .level_one > li {
+  border: 1px solid #eee;
+  border-bottom: none;
+}
+
+#tree .level_one > li:last-child {
+  border-bottom: 1px solid #eee;
+}
+
+.level_two li {
+  padding-left: 30px;
+  border-top: 1px solid #eee;
+}
+
+.item_box {
+  display: flex;
+  cursor: pointer;
+  padding: 4px 10px;
+  align-items: center;
+}
+
+.item_box .icon {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.item_box .icon svg {
+  color: #666;
+  transition: all .3s;
+}
+
+.item_context {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.item_box .item_context .state_icon {
+  display: flex;
+  width: 30px;
+  justify-content: center;
+  align-items: center;
+}
+
+.level_one > li,
+.level_two > li {
+  color: #666;
+  position: relative;
+  overflow: hidden;
+}
+
+.level_one .collapse_box {
+  height: 0;
+  overflow: hidden;
+  transition: all .5s;
+}
+
+.level_one > li.checked > .item_box > .state_icon > svg.selected,
+.level_two > li.checked > .item_box > .state_icon > svg.selected,
+.level_one > li.selected > .item_box > .state_icon > svg.checked,
+.level_two > li.selected > .item_box > .state_icon > svg.checked {
+  display: none;
+}
+
+.level_one > li.selected > .item_box > .state_icon > svg.selected,
+.level_two > li.selected > .item_box > .state_icon > svg.selected {
+  color: #369;
+  display: block;
+}
+
+.context {
+  height: 30px;
+  line-height: 30px;
+  font-size: 15px;
+}

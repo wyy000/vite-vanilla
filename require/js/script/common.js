@@ -7,5 +7,6 @@ require.config({
     "tablesorter": '../lib/jquery.tablesorter.min',
     "bootstrap-select": '../../../plugins/bootstrap-select/bootstrap-select.min.js',
     "datatables": '../../../plugins/datatables-1.10.23/datatables',
+    "treeviews": '../lib/bootstrap-treeviews',
   }
 })

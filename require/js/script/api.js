@@ -29,6 +29,16 @@ define(['api'], function () {
     })
   }
 
+  const treeData = function (config) {
+    $.ajax({
+      url: '/tree-data',
+      type: config.type,
+      data: config.data,
+      success: config.success,
+      error: config.error,
+    })
+  }
+
   const uploadFile = function (config) {
     $.ajax({
       url: '/upload-file',
@@ -65,6 +75,7 @@ define(['api'], function () {
     createGroup: createGroup,
     menuList: menuList,
     tableData: tableData,
+    treeData,
     uploadFile: uploadFile,
     userGroups: userGroups,
     userColumns: userColumns,

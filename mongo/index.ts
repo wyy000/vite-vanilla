@@ -2,8 +2,9 @@ export const menuList = [
   {name: 'chart', path: 'chart.html'},
   {name: 'input', path: 'input.html'},
   {name: 'table', path: 'table.html'},
-  {name: 'customerGroup', path: 'customerGroup.html', active: true},
+  {name: 'customerGroup', path: 'customerGroup.html'},
   {name: 'tableSort', path: 'tableSort.html'},
+  {name: 'tree', path: 'tree.html', active: true},
   {name: 'select', path: 'select.html'},
 ]
 
@@ -13,6 +14,16 @@ export const tableData = Array.from({length: 20}).map((it, idx) => ({
   count: parseInt(String(Math.random() * 2000)),
   time: Date.now() + idx,
 }))
+
+export const treeData = Array.from({length: 6}).map((it, idx) => ({
+  num: Math.random().toString().substr(2),
+  pid: 0,
+  id: idx + 1,
+})).concat(Array.from({length: 20}).map((it, idx) => ({
+  num: Math.random().toString().substr(2),
+  pid: Math.ceil(Math.random() * 5),
+  id: idx + 6,
+})))
 
 export const userColumns = [
   {title: '客群', data: 'cname', sort: true},
