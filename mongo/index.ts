@@ -1,10 +1,13 @@
+export const d3Data = ['2345', '1441', '754']
+
 export const menuList = [
   {name: 'chart', path: 'chart.html'},
+  {name: 'customerGroup', path: 'customerGroup.html'},
+  {name: 'd3', path: 'd3.html', active: true},
   {name: 'input', path: 'input.html'},
   {name: 'table', path: 'table.html'},
-  {name: 'customerGroup', path: 'customerGroup.html'},
   {name: 'tableSort', path: 'tableSort.html'},
-  {name: 'tree', path: 'tree.html', active: true},
+  {name: 'tree', path: 'tree.html'},
   {name: 'select', path: 'select.html'},
 ]
 

@@ -1,6 +1,6 @@
 import { MockMethod } from 'vite-plugin-mock'
 
-import {menuList, tableData, treeData, userColumns, userGroups} from '../mongo'
+import {d3Data, menuList, tableData, treeData, userColumns, userGroups} from '../mongo'
 
 export default [
   {
@@ -9,6 +9,16 @@ export default [
     response: ({ query }) => {
       return {
         code: 0,
+      }
+    },
+  },
+  {
+    url: '/d3-data',
+    method: 'get',
+    response: () => {
+      return {
+        code: 0,
+        data: d3Data,
       }
     },
   },
