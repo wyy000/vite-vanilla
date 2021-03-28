@@ -9,6 +9,14 @@ define(['api'], function () {
     })
   }
 
+  const mergeChunk = function (config) {
+    $.ajax({
+      url: 'http://localhost:8080/merge',
+      type: 'POST',
+      ...config,
+    })
+  }
+
   const menuList = function (config) {
     $.ajax({
       url: '/menu-list',
@@ -41,13 +49,30 @@ define(['api'], function () {
 
   const uploadFile = function (config) {
     $.ajax({
-      url: '/upload-file',
+      url: 'http://localhost:8080/upload-file',
       type: 'POST',
       dataType: 'JSON',
+      data: config.data,
       processData: false,
       contentType: false,
       success: config.success,
       error: config.error,
+      xhr: function() {
+        var xhr = new XMLHttpRequest();
+        //使用XMLHttpRequest.upload监听上传过程，注册progress事件，打印回调函数中的event事件
+        /*xhr.upload.addEventListener('progress', function (e) {
+          console.log(e, (e.loaded / e.total) * 100 + '%');
+          //loaded代表上传了多少
+          //total代表总数为多少
+          var progressRate = (e.loaded / e.total) * 100 + '%';
+
+          //通过设置进度条的宽度达到效果
+          // $('.progress > div').css('width', progressRate);
+        })*/
+        xhr.upload.addEventListener('progress', config.progress)
+
+        return xhr;
+      }
     })
   }
 
@@ -73,6 +98,7 @@ define(['api'], function () {
 
   return {
     createGroup: createGroup,
+    mergeChunk,
     menuList: menuList,
     tableData: tableData,
     treeData,
