@@ -3,19 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <title>select</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" href="plugins/bootstrap-select/bootstrap-select.min.css">
+  <style>
+    #app .bootstrap-select.show-tick button.btn:focus {
+      outline: none !important;
+    }
+  </style>
 </head>
 <body>
   <div id="app">
-    <select class="selectpicker" data-live-search="true">
-      <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
-      <option data-tokens="mustard">Burger, Shake and a Smile</option>
-      <option data-tokens="frosting">Sugar, Spice and all things nice</option>
+    <label for="id_select"></label>
+    <select id="id_select" class="selectpicker show-tick" data-width="auto" data-live-search="true">
+      <option>cow</option>
+      <option>bull</option>
+      <option>ASD</option>
+      <option>Bla</option>
+      <option>Ble</option>
     </select>
-
   </div>
 
   <script type="text/javascript" src="require/js/lib/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script type="text/javascript" src="plugins/bootstrap-select/bootstrap-select.min.js"></script>
   <script data-main="require/js/script/selectPage.js" src="require/js/lib/require.js"></script>
 </body>

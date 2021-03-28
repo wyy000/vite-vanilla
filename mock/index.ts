@@ -79,7 +79,7 @@ export default [
 
       return ({
         code: 0,
-        data: res.slice(query.start, query.start + query.length),
+        data: res.slice((query.pageNumber - 1) * query.pageSize, query.pageNumber * query.pageSize),
         recordsTotal: userGroups.length,
         recordsFiltered: res.length,
       })
