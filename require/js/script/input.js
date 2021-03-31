@@ -1,79 +1,152 @@
 require(['common'], function () {
-  require(['jquery', 'api'],function($, $http) {
+  require(['jquery', 'api', '/require/js/lib/spark-md5.3.0.0.js'],function($, $http, SparkMD5) {
+    let hash = ''
+    let requestQueue = []
 
-    $('#btn_upload').on('click', function () {
-      Promise.all(upload(getData()))
-        .then(res => {
-          console.log(res)
-            $http.mergeChunk({
-            headers: {
-              "content-type": "application/json"
-            },
-            data: JSON.stringify({
-              filename: 'test.txt',
-            }),
-          })
-        },
-        error => {
-          console.log(error)
-        })
+    $('#fileUpload').on('change', function (e) {
+      let file = this.files[0]
+      if (!file) return
+
+      $('#progressBox').css('display', 'flex').siblings('div').hide()
+
+      let blobSlice = File.prototype.slice || File.prototype.mozSlice || File.prototype.webkitSlice
+      let chunks = file.size > 10 * 1024 * 1024 ? Math.min(Math.ceil(file.size / 10 * 1024 * 1024), 10) : 1
+      let chunkSize = Math.ceil(Math.ceil(file.size / chunks) / 1024 / 1024) * 1024 * 1024
+      let currentChunk = 0
+      let spark = new SparkMD5.ArrayBuffer()
+      let fileReader = new FileReader()
+      let fileChunkList = []
+
+      fileReader.onload = function (e) {
+        spark.append(e.target.result)                   // Append array buffer
+        currentChunk++
+
+        if (currentChunk < chunks) {
+          loadNext()
+        } else {
+          hash = spark.end()
+          addRequestQueue(getDataList(fileChunkList))
+          uploadChunks(requestQueue, file.name)
+        }
+      }
+
+      fileReader.onerror = function () {
+        console.warn('oops, something went wrong.')
+        $('#fileUpload').val('')
+        $('#uploadBox').css('display', 'flex').siblings('div').hide()
+      }
+
+      function loadNext() {
+        let start = currentChunk * chunkSize
+        let end = ((start + chunkSize) >= file.size) ? file.size : start + chunkSize
+        let chunk = blobSlice.call(file, start, end)
+        fileChunkList.push(chunk)
+        fileReader.readAsArrayBuffer(chunk)
+      }
+
+      loadNext()
     })
 
-    function getData () {
-      const file = $('#file_upload')[0].files[0]
-      if (!file) return
-      var size = 10 * 1024 * 1024
-      // let data = new FormData()
-      // data.append('file', file, file.name)
-      var chunkFile = chunkFiles(file, size)
-      var dataList = []
-      for (var i = 0; i< chunkFile.length; i++) {
-        console.log(chunkFile[i])
+    $('#pauseBtn').click(function () {
+      for (let i = 0; i < requestQueue.length; i++) {
+        requestQueue[i].readyState !== 4 && requestQueue[i].abort()
+      }
+      $('#failBox').css('display', 'flex')
+      $('#pauseBox').hide()
+    })
+
+    $('#failBox').click(function () {
+      let arr = []
+      for (let i = 0; i < requestQueue.length; i++) {
+        requestQueue[i].readyState !== 4 && arr.push(getRequestItem(requestQueue[i], i))
+      }
+      let fileName = $('#fileUpload')[0].files[0].name
+      arr.length > 0 ? uploadChunks(arr, fileName) : margeChunks(fileName)
+    })
+
+    $('#closeBtn').on('click', function (e) {
+      e.stopPropagation()
+      resetUpload()
+    })
+
+    function addRequestQueue (list) {
+      for (let i = 0; i < list.length; i++) {
+        requestQueue.push(getRequestItem(list[i], i))
+      }
+    }
+
+    function getDataList (list) {
+      let dataList = []
+      for (let i = 0; i< list.length; i++) {
         dataList.push({
-          chunk: chunkFile[i].file,
-          hash: file.name + '_' + i,
+          chunk: list[i],
+          hash: hash,
+          idx: i,
         })
       }
       return dataList
     }
 
-    function chunkFiles (file, size) {
-      var fileChunkList = []
-      var cur = 0
-      while (cur < file.size) {
-        fileChunkList.push({ file: file.slice(cur, cur + size)})
-        cur += size
-      }
-      return fileChunkList
+    function getRequestItem (data, idx) {
+      let formData = new FormData()
+      formData.append('chunk', data.chunk)
+      formData.append('hash', data.hash)
+      formData.append('index', idx)
+      return $.ajax({
+        // url: 'http://localhost:8080/upload-file',
+        url: '/upload-file',
+        type: 'POST',
+        dataType: 'JSON',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function () {},
+        error:  function () {},
+      })
     }
 
-    function upload (dataList) {
-      var arr = []
-      for (var i = 0; i < dataList.length; i++) {
-        var formData = new FormData()
-        formData.append('chunk', dataList[i].chunk)
-        formData.append('hash', dataList[i].hash)
-        formData.append('filename', dataList[i].hash.split('_')[0])
-        console.log(formData, dataList)
-
-        arr.push($http.uploadFile({
-          data: formData,
-          type: 'POST',
-          dataType: 'JSON',
-          processData: false,
-          contentType: false,
-          success: function (res) {},
-          error: function (err) {},
-          progress,
-        }))
-      }
-
-      return arr
+    function margeChunks (fileName) {
+      $http.mergeChunk({
+        headers: {
+          "content-type": "application/json"
+        },
+        data: JSON.stringify({
+          fileName: fileName,
+          hash: hash,
+        }),
+        success: function (res) {
+          if (res.code === 0) {
+            hash = ''
+            $('#successBox').css('display', 'flex').siblings('div').hide()
+          }
+        },
+        error: function (e) {
+          console.log(e)
+          $('#failBox').css('display', 'flex').siblings('div').hide()
+        },
+      })
     }
 
-    function progress (e) {
-      console.log(e, (e.loaded / e.total) * 100 + '%')
-      // console.log(config)
+    function resetUpload () {
+      for (let i = 0; i < requestQueue.length; i++) {
+        requestQueue[i].readyState !== 4 && requestQueue[i].abort()
+      }
+      hash = ''
+      requestQueue = []
+      $('#fileUpload').val('')
+      $('#uploadBox').css('display', 'flex').siblings('div').hide()
+    }
+
+    function uploadChunks (arr, fileName) {
+      Promise.all(arr)
+        .then(() => {
+          requestQueue = []
+          margeChunks(fileName)
+        })
+        .catch(e => {
+          console.log(e)
+          $('#failBox').css('display', 'flex').siblings('div').hide()
+        })
     }
   })
 })

@@ -3,12 +3,134 @@
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
+
+  <style>
+    .upload_box {
+      width: 100px;
+      height: 96px;
+      border: 2px dashed #eee;
+      position: relative;
+      box-sizing: border-box;
+      color: #909da9;
+      cursor: pointer;
+    }
+    .upload_box input {
+      display: block;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+    .upload_box .click_upload {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      top: 50px;
+      z-index: -1;
+    }
+    .upload_box svg {
+      position: absolute;
+      top: 20px;
+      bottom: 0;
+      left: 38px;
+      right: 0;
+      z-index: -1;
+    }
+    .progress_box {
+      position: relative;
+      display: none;
+      cursor: default;
+      width: 100px;
+      height: 96px;
+      border: 2px dashed #eee;
+      box-sizing: border-box;
+      color: #909da9;
+    }
+    .progress_box > div {
+      display: flex;
+      justify-content: space-evenly;
+      align-content: center;
+      flex-direction: column;
+      text-align: center;
+      height: 100%;
+      width: 100%;
+    }
+    .progress_box .progress {
+      margin: 0 auto;
+      height: 8px;
+      width: 88%;
+      border-radius: 4px;
+      border: 1px solid #ddd;7
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+    .progress_box .progress > div {
+      width: 0;
+      height: 100%;
+      background-color: #00bf8a;
+      transition: width .1s;
+    }
+    .progress_box svg {
+      margin: 0 auto;
+      cursor: pointer;
+    }
+    .progress_box .close_icon {
+      position: absolute;
+      top: -12px;
+      right: -12px;
+      transition: all .3s;
+      cursor: pointer;
+    }
+    .progress_box svg.close_icon:hover {
+      color: #c00;
+    }
+    #failBox {
+      display: none;
+    }
+    #successBox {
+      display: none;
+    }
+  </style>
 </head>
 <body>
-  <h1>input</h1>
-  <input type="file" id="file_upload" name="file" />
-  <button id="btn_upload">upload</button>
+<h1>input</h1>
+<div id="uploadBox" class="upload_box">
+  <input type="file" id="fileUpload" name="file" />
+  <div class="click_upload">点击上传</div>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+    <path fill="none" d="M0 0h24v24H0z" />
+    <path d="M12 12.586l4.243 4.242-1.415 1.415L13 16.415V22h-2v-5.587l-1.828 1.83-1.415-1.415L12 12.586zM12 2a7.001 7.001 0 0 1 6.954 6.194 5.5 5.5 0 0 1-.953 10.784v-2.014a3.5 3.5 0 1 0-1.112-6.91 5 5 0 1 0-9.777 0 3.5 3.5 0 0 0-1.292 6.88l.18.03v2.014a5.5 5.5 0 0 1-.954-10.784A7 7 0 0 1 12 2z" />
+  </svg>
+</div>
+<div id="progressBox" class="progress_box">
+<!--  <div id="progress" class="progress">-->
+<!--    <div></div>-->
+<!--  </div>-->
+  <div id="pauseBox">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" class="pause_icon" id="pauseBtn">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+    <span>上传中...</span>
+  </div>
+  <div id="failBox">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+    </svg>
+    <span>重试</span>
+  </div>
+  <div id="successBox">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+      <path fill="none" d="M0 0h24v24H0z"/>
+      <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-.997-4L6.76 11.757l1.414-1.414 2.829 2.829 5.656-5.657 1.415 1.414L11.003 16z"/>
+    </svg>
+    <span>上传成功</span>
+  </div>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" class="close_icon" id="closeBtn">
+    <path fill="none" d="M0 0h24v24H0z"/>
+    <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm0-9.414l2.828-2.829 1.415 1.415L13.414 12l2.829 2.828-1.415 1.415L12 13.414l-2.828 2.829-1.415-1.415L10.586 12 7.757 9.172l1.415-1.415L12 10.586z"/>
+  </svg>
+</div>
 
-  <script type="text/javascript" data-main="require/js/script/input.js" src="require/js/lib/require.js"></script>
+<script type="text/javascript" data-main="require/js/script/input.js" src="require/js/lib/require.js"></script>
 </body>
 </html>

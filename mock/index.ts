@@ -23,6 +23,15 @@ export default [
     },
   },
   {
+    url: '/merge',
+    method: 'post',
+    response: ({ query }) => {
+      return {
+        code: 0,
+      }
+    },
+  },
+  {
     url: '/menu-list',
     method: 'get',
     response: ({ query }) => {

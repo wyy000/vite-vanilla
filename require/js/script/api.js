@@ -11,7 +11,8 @@ define(['api'], function () {
 
   const mergeChunk = function (config) {
     $.ajax({
-      url: 'http://localhost:8080/merge',
+      // url: 'http://localhost:8080/merge',
+      url: '/merge',
       type: 'POST',
       ...config,
     })
@@ -49,7 +50,8 @@ define(['api'], function () {
 
   const uploadFile = function (config) {
     $.ajax({
-      url: 'http://localhost:8080/upload-file',
+      // url: 'http://localhost:8080/upload-file',
+      url: '/upload-file',
       type: 'POST',
       dataType: 'JSON',
       data: config.data,
