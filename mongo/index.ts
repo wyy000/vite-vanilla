@@ -1,10 +1,13 @@
-export const d3Data = ['2345', '1441', '754']
+export const d3Data = Array.from({length: 5}).map((it, i) => ({
+  title: '登录' + i,
+  count: Number(String(Math.random()).substr(2,4)),
+})).sort((a, b) => b.count - a.count)
 
 export const menuList = [
   {name: 'chart', path: 'chart.html'},
   {name: 'createBoard', path: 'createBoard.html', active: true},
   {name: 'customerGroup', path: 'customerGroup.html'},
-  {name: 'd3', path: 'd3.html'},
+  {name: 'd3', path: 'd3.html', active: true},
   {name: 'input', path: 'input.html'},
   {name: 'table', path: 'table.html'},
   {name: 'tableSort', path: 'tableSort.html'},
