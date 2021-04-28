@@ -3,6 +3,11 @@ export const d3Data = Array.from({length: 5}).map((it, i) => ({
   count: Number(String(Math.random()).substr(2,4)),
 })).sort((a, b) => b.count - a.count)
 
+export const d3CurvesData = Array.from({length: 6}).map((it, i) => ({
+  title: '登录' + i,
+  count: Number(String(Math.random()).substr(2,4)) / 100,
+}))
+
 export const menuList = [
   {name: 'chart', path: 'chart.html'},
   {name: 'createBoard', path: 'createBoard.html', active: true},

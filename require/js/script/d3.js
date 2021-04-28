@@ -98,7 +98,7 @@ require(['common'], function () {
         .call(d => {
           d
             .append('path')
-            .attr('d', `M0, 0 h${SIGN_WIDTH / 4 * 3} l${SIGN_WIDTH / 4}, ${SIGN_HEIGHT / 2} l-${SIGN_WIDTH / 4}, ${SIGN_HEIGHT / 2} h-${SIGN_WIDTH / 4 * 3}`).attr('fill', '#ccc')
+            .attr('d', `M0 4, A4 4, 0, 0, 1, 4 0, h${SIGN_WIDTH / 4 * 3} l${SIGN_WIDTH / 4}, ${SIGN_HEIGHT / 2} l-${SIGN_WIDTH / 4}, ${SIGN_HEIGHT / 2} h-${SIGN_WIDTH / 4 * 3}, A4 4, 0, 0, 1, 0 36`).attr('fill', '#ccc')
 
           d
             .append('text').classed('conversion_text', true)
