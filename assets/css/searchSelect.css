@@ -1,0 +1,92 @@
+.search_select {
+  position: relative;
+}
+
+button {
+  display: inline-block;
+  padding: 2px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 25px;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  color: #333;
+  background-color: #fff;
+  border-color: #ddd;
+}
+
+.search_select_box {
+  width: 300px;
+  border: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+}
+
+.search_input {
+  border: 1px solid #ddd;
+  line-height: 25px;
+  margin: 6px;
+  outline: none;
+}
+
+.select_all_box,
+.selected_btn_box {
+  display: flex;
+  border: 1px solid #ddd;
+  margin: 6px;
+  margin-top: 0;
+}
+
+.select_all_box button,
+.selected_btn_box button {
+  flex: 1;
+  border: none;
+}
+
+.select_all_box button:first-child,
+.selected_btn_box button:first-child {
+  border-right: 1px solid #ddd;
+}
+
+.select_list {
+  margin: 6px;
+  margin-top: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.select_list div {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.select_list label {
+  cursor: pointer;
+  flex: 1;
+  display: flex;
+}
+
+.select_list label span {
+  flex: 1;
+  padding: 2px;
+}
+
+.select_list input {
+  display: none;
+}
+
+.select_list input[type=checkbox]:checked + span {
+  background: #1b6d85;
+}

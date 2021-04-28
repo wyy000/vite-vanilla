@@ -93,8 +93,8 @@ require(['common'], function () {
       formData.append('hash', data.hash)
       formData.append('index', idx)
       return $.ajax({
-        // url: 'http://localhost:8080/upload-file',
-        url: '/upload-file',
+        url: 'http://localhost:8080/upload-file',
+        // url: '/upload-file',
         type: 'POST',
         dataType: 'JSON',
         data: formData,
@@ -138,15 +138,20 @@ require(['common'], function () {
     }
 
     function uploadChunks (arr, fileName) {
-      Promise.all(arr)
-        .then(() => {
-          requestQueue = []
-          margeChunks(fileName)
-        })
-        .catch(e => {
-          console.log(e)
-          $('#failBox').css('display', 'flex').siblings('div').hide()
-        })
+      setTimeout(() => {
+        requestQueue = []
+        margeChunks(fileName)
+      }, 5000)
+      // Promise.all(arr)
+      //   .then(() => {
+      //     console.log(999)
+      //     requestQueue = []
+      //     margeChunks(fileName)
+      //   })
+      //   .catch(e => {
+      //     console.log(e)
+      //     $('#failBox').css('display', 'flex').siblings('div').hide()
+      //   })
     }
   })
 })

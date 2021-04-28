@@ -9,6 +9,7 @@ export const menuList = [
   {name: 'table', path: 'table.html'},
   {name: 'tableSort', path: 'tableSort.html'},
   {name: 'tree', path: 'tree.html'},
+  {name: 'search-select', path: 'search-select.html'},
   {name: 'select', path: 'select.html'},
   {name: 'radio', path: 'radio.html'},
 ]
