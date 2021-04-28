@@ -86,13 +86,25 @@ require(['common'], function () {
             .text((d, i) => `${i + 1}. ${d.title}`)
         })
 
+      const SIGN_WIDTH = 80
+      const SIGN_HEIGHT = 40
+
       svg
-        .selectAll('text.conversion_text')
+        .selectAll('g.transition_group')
         .data(dataset.map(it => it).splice(0, dataset.length - 1))
         .enter()
-        .append('text').classed('conversion_text', true)
-        .attr("y", height - yScale(maxHeight) / 2).attr("x", (d, i) => sectionWidth * (i + 1)).attr('fill', '#555').attr('font-weight', 'bold')
-        .text((d, i) => `${(dataset[i + 1].count / d.count * 100).toFixed(2)}%`)
+        .append('g')
+        .attr('transform', (d, i) => `translate(${sectionWidth * (i + 1)}, ${height - padding.bottom - yScale(maxHeight) / 2 - 20})`)
+        .call(d => {
+          d
+            .append('path')
+            .attr('d', `M0, 0 h${SIGN_WIDTH / 4 * 3} l${SIGN_WIDTH / 4}, ${SIGN_HEIGHT / 2} l-${SIGN_WIDTH / 4}, ${SIGN_HEIGHT / 2} h-${SIGN_WIDTH / 4 * 3}`).attr('fill', '#ccc')
+
+          d
+            .append('text').classed('conversion_text', true)
+            .attr('dy', 26).attr('dx', 5).attr('fill', '#555').attr('font-weight', 'bold')
+            .text((d, i) => `${(dataset[i + 1].count / d.count * 100).toFixed(2)}%`)
+        })
 
     })
   })
