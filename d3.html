@@ -9,14 +9,31 @@
             height: 500px;
             width: 1000px;
         }
+
+        .tooltip {
+            position: absolute;
+            visibility: hidden;
+            background: #000;
+            opacity: .6;
+            border-radius: 4px;
+            color: #fff;
+            padding: 4px;
+            z-index: 10;
+        }
+
+        rect {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div id="app">
+        <button id="search">搜索🔍</button>
         <div id="d3Container"></div>
     </div>
 
 <!--    <script data-main="require/js/script/d3.js" src="require/js/lib/require.js"></script>-->
+<!--    <script data-main="require/js/script/d3-rect.js" src="require/js/lib/require.js"></script>-->
     <script data-main="require/js/script/d3-curves.js" src="require/js/lib/require.js"></script>
 </body>
 </html>

@@ -18,7 +18,10 @@ export default [
     response: () => {
       return {
         code: 0,
-        data: d3CurvesData,
+        data: Array.from({length: Math.ceil(6)}).map((it, i) => ({
+          title: '登录' + i,
+          count: Number(String(Math.random()).substr(2,4)) / 100,
+        })),
       }
     },
   },
@@ -28,7 +31,10 @@ export default [
     response: () => {
       return {
         code: 0,
-        data: d3Data,
+        data: Array.from({length: Math.ceil(6)}).map((it, i) => ({
+          title: '登录' + i,
+          count: Number(String(Math.random()).substr(2,4)),
+        })).sort((a, b) => b.count - a.count),
       }
     },
   },

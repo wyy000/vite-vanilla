@@ -13,11 +13,15 @@ require(['common'], function () {
 
     const tooltip = d3.select("#d3Container")
       .append("div")
-      .style("position", "absolute")
-      .style("z-index", "10")
-      .style("visibility", "hidden")
-      .style("background", "#fff")
-      .text("a simple tooltip")
+      .classed('tooltip', true)
+      .text('tip')
+
+    function bindTip (sel) {
+      sel
+        .on('mouseover', (e, d) => tooltip.text(d.count).style('visibility', 'visible'))
+        .on('mousemove', e => tooltip.style('top', `${e.pageY - 10}px`).style('left', `${e.pageX + 10}px`))
+        .on('mouseout', () => tooltip.style('visibility', 'hidden'))
+    }
 
     d3.json('/d3-data', function (error) {
       if (error) alert('Error!')
@@ -28,12 +32,10 @@ require(['common'], function () {
       const lineHeight = Math.floor(maxHeight / (Y_INTERVAL - 0.6))
       const RECT_WIDTH = 50
 
-      console.log(dataset)
-
       xScale.domain(dataset.map(d => d.title))
       yScale.domain([0, lineHeight * Y_INTERVAL])
-      const xAxis = d3.axisTop(xScale)
-      const yAxis = d3.axisLeft(yScale)
+      // const xAxis = d3.axisTop(xScale)
+      // const yAxis = d3.axisLeft(yScale)
 
       const svg = d3.select('#d3Container')
         .append('svg')
@@ -50,7 +52,7 @@ require(['common'], function () {
             .attr('transform', (d, i) => `translate(0, ${(height - padding.top - padding.bottom) / Y_INTERVAL * (Y_INTERVAL - i) + padding.top})`)
             .classed('group_y', true)
             .append('line')
-            .attr('x1', (d, i) => padding.left).attr('x2', (d, i) => width - padding.left - padding.right).attr('y1', 0).attr('y2', 0)
+            .attr('x1', (d, i) => padding.left).attr('x2', (d, i) => width - padding.left).attr('y1', 0).attr('y2', 0)
             .attr('stroke', '#eee').attr('stroke-width', '1px')
 
           sel
@@ -71,9 +73,7 @@ require(['common'], function () {
             .append('rect')
             .attr('y', d => height - yScale(d.count))
             .attr('width', RECT_WIDTH).attr('height', d => yScale(d.count)).attr('fill', '#688ff4')
-            .on("mouseover", function(e, d){tooltip.text(d.count); return tooltip.style("visibility", "visible")})
-            .on("mousemove", function(d){return tooltip.style("top", (d.pageY-10)+"px").style("left",(d.pageX+10)+"px")})
-            .on("mouseout", function(){return tooltip.style("visibility", "hidden")})
+            .call(bindTip)
 
           sel
             .append('rect')
@@ -94,15 +94,16 @@ require(['common'], function () {
         .data(dataset.map(it => it).splice(0, dataset.length - 1))
         .enter()
         .append('g')
-        .attr('transform', (d, i) => `translate(${sectionWidth * (i + 1)}, ${height - padding.bottom - yScale(maxHeight) / 2 - 20})`)
+        .attr('transform', (d, i) => `translate(${sectionWidth * (i + 1) - 10}, ${height - padding.bottom - yScale(maxHeight) / 2 - 20})`)
         .call(d => {
           d
             .append('path')
+            .attr('fill', '#ddd')
             .attr('d', `M0 4, A4 4, 0, 0, 1, 4 0, h${SIGN_WIDTH / 4 * 3} l${SIGN_WIDTH / 4}, ${SIGN_HEIGHT / 2} l-${SIGN_WIDTH / 4}, ${SIGN_HEIGHT / 2} h-${SIGN_WIDTH / 4 * 3}, A4 4, 0, 0, 1, 0 36`).attr('fill', '#ccc')
 
           d
             .append('text').classed('conversion_text', true)
-            .attr('dy', 26).attr('dx', 5).attr('fill', '#555').attr('font-weight', 'bold')
+            .attr('dy', 26).attr('dx', 8).attr('fill', '#555').attr('font-weight', 'bold')
             .text((d, i) => `${(dataset[i + 1].count / d.count * 100).toFixed(2)}%`)
         })
 
