@@ -9,6 +9,14 @@ define(['api'], function () {
     })
   }
 
+  const dragData = function (config) {
+    $.ajax({
+      url: '/drag-data',
+      type: 'GET',
+      ...config,
+    })
+  }
+
   const mergeChunk = function (config) {
     $.ajax({
       // url: 'http://localhost:8080/merge',
@@ -100,6 +108,7 @@ define(['api'], function () {
 
   return {
     createGroup: createGroup,
+    dragData,
     mergeChunk,
     menuList: menuList,
     tableData: tableData,

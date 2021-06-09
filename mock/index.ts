@@ -39,6 +39,36 @@ export default [
     },
   },
   {
+    url: '/drag-data',
+    method: 'get',
+    response: () => {
+      return {
+        code: 0,
+        data: {
+          id: 'IUHIHD5345DDG',
+          creator: 'yang',
+          charts: Array.from({length: 6}).map((it, idx) =>({
+            id: 'IUHIHD5345DDG-' + idx,
+            pid: 'IUHIHD5345DDG',
+            type: 'circle',
+            data: d3Data,
+            options: {
+              title: '视图' + idx,
+              date: {start: null, end: null},
+              conditions: [],
+            },
+            position: {
+              x: idx % 2 ? 0 : 6,
+              y: parseFloat(idx / 2) * 6,
+              width: 6,
+              height: 6,
+            },
+          })),
+        },
+      }
+    },
+  },
+  {
     url: '/merge',
     method: 'post',
     response: ({ query }) => {

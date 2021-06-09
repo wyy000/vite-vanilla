@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="./assets/css/gridstack.css">
+  <link rel="stylesheet" href="./assets/css/drag.css">
+  <style type="text/css">
+    .grid-stack {
+      /*flex: 1;*/
+      /*background: lightgoldenrodyellow;*/
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <div class="signage_menu">
+    <div>
+      <button data-bind="click: add_new_widget">Add new widget</button>
+    </div>
+  </div>
+  <div id="signageContainer" class="signage_container">
+    <div class="grid_container" data-bind="component: {name: 'dashboard-grid', params: $data}"></div>
+  </div>
+</div>
+
+<script data-main="require/js/script/drag.js" src="require/js/lib/require.js"></script>
+<template id="gridstack-template">
+  <div class="grid-stack" data-bind="foreach: {data: widgets, afterRender: afterAddWidget}">
+    <div class="grid-stack-item" data-bind="attr: {'id': $data.id, 'data-gs-x': $data.x, 'data-gs-y': $data.y, 'data-gs-width': $data.width, 'data-gs-height': $data.height, 'data-gs-auto-position': $data.auto_position}">
+      <div class="grid-stack-item-content" data-bind="resize: $root.resize_widget">
+        <div class="head">
+          <h3 class="title">title</h3>
+          <button data-bind="click: $root.delete_widget">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M20 7v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7H2V5h20v2h-2zM6 7v13h12V7H6zm5 2h2v2h-2V9zm0 3h2v2h-2v-2zm0 3h2v2h-2v-2zM7 2h10v2H7V2z"/></svg>
+          </button></div>
+        <div class="date">date</div>
+        <div class="draw">draw</div></div>
+    </div></div><!-- <---- NO SPACE BETWEEN THESE CLOSING TAGS -->
+</template>
+</body>
+</html>
