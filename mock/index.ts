@@ -50,7 +50,7 @@ export default [
           charts: Array.from({length: 6}).map((it, idx) =>({
             id: 'IUHIHD5345DDG-' + idx,
             pid: 'IUHIHD5345DDG',
-            type: 'circle',
+            type: !(idx % 3) ? 'line' : idx % 3 === 1 ? 'pie' : 'bar',
             data: d3Data,
             options: {
               title: '视图' + idx,
