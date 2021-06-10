@@ -12,10 +12,7 @@ require(['common'], function () {
 
     const yScale = d3.scaleLinear().range([0, height - PADDING.top - PADDING.bottom])
 
-    const tooltip = d3.select('#d3Container')
-      .append('div')
-      .classed('tooltip', true)
-      .text('tip')
+    let tooltip
 
     $('#search').on('click', function () {
       $dom.empty()
@@ -25,13 +22,22 @@ require(['common'], function () {
     createRect()
 
     function bindTip (sel) {
+      console.log(sel)
       sel
         .on('mouseover', (e, d) => tooltip.text(d.count).style('visibility', 'visible'))
         .on('mousemove', e => tooltip.style('top', `${e.pageY - 10}px`).style('left', `${e.pageX + 10}px`))
         .on('mouseout', () => tooltip.style('visibility', 'hidden'))
     }
 
+    function createTip () {
+      tooltip = d3.select('#d3Container')
+        .append('div')
+        .classed('tooltip', true)
+        .text('tip')
+    }
+
     function createRect () {
+      createTip()
       d3.json('/d3-data', function (error) {
         if (error) alert('Error!')
       }).then(function (res) {
@@ -50,7 +56,7 @@ require(['common'], function () {
           .attr('width', width)
           .attr('height', height)
 
-        drawBaseline(svg, yArr, {})
+        drawBaseline(svg, yArr)
         drawRectItem(svg, dataset, {yScale})
         drawRectBottom(svg, dataset, {yScale, maxHeight})
       })
@@ -137,6 +143,20 @@ require(['common'], function () {
             .transition().delay(400).duration(300)
             .attr('opacity', 1)
         })
+    }
+
+    /****************************************/
+    createLineView()
+
+    function createLineView () {
+      $.ajax({
+        url: '/d3-data',
+        success: res => {
+          res.forEach(it => {
+            $('#lineContainer').html($('#lineItem')[0].innerText)
+          })
+        }
+      })
     }
   })
 })

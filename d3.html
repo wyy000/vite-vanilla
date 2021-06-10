@@ -30,10 +30,28 @@
     <div id="app">
         <button id="search">搜索🔍</button>
         <div id="d3Container"></div>
+
+        <div id="lineContainer"></div>
     </div>
 
+    <script type="text/html" id="lineItem">
+        <div class="line_item">
+            <div class="line_text">
+                <div class="lint_item_title"></div>
+                <div class="line_item_count"></div>
+            </div>
+            <div class="line_fill">
+                <div class="fill_blue"></div>
+                <div class="fill_gray"></div>
+            </div>
+            <svg width="82" height="34" viewBox="0 0 82 34" fill="#eee" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 18.0239V5C1 2.79086 2.79086 1 5 1H77C79.2091 1 81 2.79086 81 5V18.0239C81 19.7903 79.8413 21.3476 78.1494 21.8552L42.1494 32.6552C41.3996 32.8801 40.6004 32.8801 39.8506 32.6552L3.85061 21.8552C2.15867 21.3476 1 19.7903 1 18.0239Z" />
+            </svg>
+        </div>
+    </script>
+
 <!--    <script data-main="require/js/script/d3.js" src="require/js/lib/require.js"></script>-->
-<!--    <script data-main="require/js/script/d3-rect.js" src="require/js/lib/require.js"></script>-->
-    <script data-main="require/js/script/d3-curves.js" src="require/js/lib/require.js"></script>
+    <script data-main="require/js/script/d3-rect.js" src="require/js/lib/require.js"></script>
+<!--    <script data-main="require/js/script/d3-curves.js" src="require/js/lib/require.js"></script>-->
 </body>
 </html>
