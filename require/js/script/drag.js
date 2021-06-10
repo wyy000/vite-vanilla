@@ -16,7 +16,9 @@ require(['common'], function () {
               if (grid == null) {
                 grid = $(componentInfo.element).find('.grid-stack').gridstack({
                   auto: false,
-                  onchange: () => {},
+                  onchange: () => {
+                    chartsStack.map(it => it.resize())
+                  },
                 }).data('gridstack')
               }
 
@@ -53,6 +55,10 @@ require(['common'], function () {
 
       this.delete_widget = function (item) {
         self.widgets.remove(item)
+      }
+
+      this.refresh_widget = function (item) {
+        console.log(item)
       }
     }
 

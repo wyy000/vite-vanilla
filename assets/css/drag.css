@@ -12,6 +12,7 @@ h3 {
 button {
   background: none;
   border: none;
+  padding: 0;
 }
 
 .app {
@@ -51,10 +52,35 @@ button {
 }
 
 .grid-stack-item-content .head {
+  margin: 8px;
   display: flex;
   justify-content: space-between;
 }
 
+.grid-stack-item-content .head h3 {
+  font-size: 17px;
+}
+
+.grid-stack-item-content .head_handle {
+  display: flex;
+  align-items: center;
+}
+
+.grid-stack-item-content .head_handle button {
+  color: #979dad;
+  cursor: pointer;
+  margin-right: 4px;
+}
+
+.grid-stack-item-content .head_handle button svg:hover {
+  color: #4078e9;
+}
+
+.grid-stack-item-content .date {
+  margin: 0 8px 4px 8px;
+}
+
 .grid-stack-item-content .draw {
+  margin: 0 8px;
   flex: 1;
 }

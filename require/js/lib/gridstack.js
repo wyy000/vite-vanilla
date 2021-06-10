@@ -422,7 +422,7 @@
                         .attr('data-gs-width', n.width)
                         .attr('data-gs-height', n.height);
                     max_height = Math.max(max_height, n.y + n.height);
-                    n.onchange?.()
+                    // n.onchange?.()
                 }
             });
             self._update_styles(max_height + 10);
@@ -611,6 +611,7 @@
             self.container.trigger('change', [self.grid.get_dirty_nodes()]);
 
             self.grid.end_update();
+            self.opts.onchange?.();
         };
 
         el.draggable(_.extend(this.opts.draggable, {
