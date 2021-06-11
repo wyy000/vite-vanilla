@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="./assets/css/customerGroup.css">
+  <link rel="stylesheet" href="./assets/css/datatable.green.css">
+  <style>
+    .expend_group {
+      /*display: none;*/
+    }
+    tr.expend_group.show {
+      display: block;
+    }
+    .expend_group td:first-child > div {
+      padding-left: 20px;
+    }
+    .expend_group td {
+      background: rgb(243 248 253);
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="table_box">
+      <table id="table" class="table hover row-border">
+        <thead id="thead">
+<!--          <tr>-->
+<!--            <th>平台</th>-->
+<!--            <th>事件ID</th>-->
+<!--            <th>事件显示名称</th>-->
+<!--            <th>事件说明</th>-->
+<!--            <th>是否预置</th>-->
+<!--            <th>更新人</th>-->
+<!--            <th>最近更新时间</th>-->
+<!--          </tr>-->
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script data-main="./require/js/script/eventList.js" src="./require/js/lib/require.js"></script>
+</body>
+</html>

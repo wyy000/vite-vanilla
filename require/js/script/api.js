@@ -9,6 +9,14 @@ define(['api'], function () {
     })
   }
 
+  const eventList = function (config) {
+    $.ajax({
+      url: '/event-list',
+      type: 'POST',
+      ...config,
+    })
+  }
+
   const mergeChunk = function (config) {
     $.ajax({
       // url: 'http://localhost:8080/merge',
@@ -100,6 +108,7 @@ define(['api'], function () {
 
   return {
     createGroup: createGroup,
+    eventList,
     mergeChunk,
     menuList: menuList,
     tableData: tableData,

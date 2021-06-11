@@ -1,6 +1,6 @@
 import { MockMethod } from 'vite-plugin-mock'
 
-import {d3Data, menuList, tableData, treeData, userColumns, userGroups} from '../mongo'
+import {d3Data, eventList, menuList, tableData, treeData, userColumns, userGroups} from '../mongo'
 
 export default [
   {
@@ -19,6 +19,18 @@ export default [
       return {
         code: 0,
         data: d3Data,
+      }
+    },
+  },
+  {
+    url: '/event-list',
+    method: 'get',
+    response: ({query}) => {
+      return {
+        code: 0,
+        data: eventList.slice((query.pageNumber - 1) * query.pageSize, query.pageNumber * query.pageSize),
+        recordsTotal: eventList.length,
+        recordsFiltered: eventList.length,
       }
     },
   },
