@@ -9,13 +9,21 @@ require(['common'], function () {
     let table
 
     $('#tbody').on('click', 'tr', function (e) {
-      const d = table.row( this ).data();
-      d.groupShow = !d.groupShow
-      table
-        .row( this )
-        .data( d )
+      const d = table.row(this).data()
+      $(this).siblings('tr').each(function (i, el) {
+        const $el = $(el)
+        if ($el.data('pid') === d.id) {
+          $el.hasClass('show_group') ? $el.removeClass('show_group') : $el.addClass('show_group')
+        }
+      })
+      // console.log(this, 999)
+
+      // d.groupShow = !d.groupShow
+      // table
+      //   .row( this )
+      //   .data( d )
         // .draw(false)
-      console.log(table.row(this).data())
+
       // console.log(e.currentTarget)
       // const childId = $(e.currentTarget).attr('id')
       // $(e.currentTarget).siblings('.' + childId).each(function (el, i) {
@@ -83,6 +91,10 @@ require(['common'], function () {
           title: '事件说明',
         },
         {
+          data: 'lastTime',
+          title: '更新时间',
+        },
+        {
           data: null,
           title: '操作',
           sorting: false,
@@ -111,18 +123,18 @@ require(['common'], function () {
       "drawCallback": function ( settings ) {
         var api = this.api();
         var rows = api.rows( {page:'current'} ).nodes();
-        console.log('drawCallback', rows, api.data())
+        // console.log('drawCallback', rows, api.data())
 
         api.data().each(function (it, idx) {
           if (it.attrList?.length) {
-            console.log(it.groupShow, 66666)
             let html = ''
             it.attrList.forEach(function (item, aIdx) {
               html +=
-                '<tr class="expend_group ' + String(it.id) + '" ' + it.groupShow ? '' : 'style="display: none;"' + '>' +
+                '<tr class="expend_group pid-' + String(it.id) + '" data-pid="' + String(it.id) + '">' +
                 '  <td class="sorting_1"><div>' + item.code + '</div></td>' +
                 '  <td>' + item.name + '</td>' +
                 '  <td>' + item.remark + '</td>' +
+                '  <td>' + item.lastTime + '</td>' +
                 '  <td class="dt-head-left">' +
                 "   <div class='row_btn_box'>\n" +
                 "     <button class='row_btn download_btn' onclick='handleDownload(JSON.stringify(" + JSON.stringify(item) + "))'>\n" +
@@ -144,14 +156,11 @@ require(['common'], function () {
                 '</tr>'
             })
             $(rows).eq(idx).data('child-id', it.id).after(html)
-            // $(rows).eq(idx).data('id', it.id)
-            // $(rows).eq(idx).attr('id', it.id)
-            // console.log(it.id, $(rows).eq(idx))
           }
         })
       },
       "rowCallback" : function(nRow, aData, iDisplayIndex) {
-        console.log('rowCallback', nRow, aData)
+        // console.log('rowCallback', nRow, aData)
         /* 用来改写用户权限的 */
         // if (aData.ISADMIN == '1')
         //   $('td:eq(5)', nRow).html('管理员');
@@ -161,13 +170,7 @@ require(['common'], function () {
         //   $('td:eq(5)', nRow).html('一般用户');
         // else
         //   $('td:eq(2)', nRow).html('一般用户');
-        //
-        // if (aData.id === 1466) {
-        //   // $(nRow).css('display', 'none')
-        //   console.log(1466)
-        //   $(nRow).after('<tr><td colspan="5">'+1+'</td></tr>')
-        // }
-        // console.log(nRow)
+
         // $(nRow).data('child-id', aData.id)
         // $(nRow).attr('id', aData.id)
         return nRow;

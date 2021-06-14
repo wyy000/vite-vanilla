@@ -7,16 +7,20 @@
   <link rel="stylesheet" href="./assets/css/datatable.green.css">
   <style>
     .expend_group {
-      /*display: none;*/
+      display: none;
     }
-    tr.expend_group.show {
-      display: block;
+    tr.expend_group.show_group {
+      display: table-row;
     }
     .expend_group td:first-child > div {
       padding-left: 20px;
     }
     .expend_group td {
       background: rgb(243 248 253);
+    }
+    .table thead th {
+        position: sticky;
+         top: 0;
     }
   </style>
 </head>
