@@ -5,16 +5,16 @@
     initSearchRadio: initSearchRadio,
   })
 
-  function initSearchRadio (data) {
+  function initSearchRadio (data, options = {}) {
     const $el = $(this)
     $el.parents().eq(0).css({'position': 'relative'})
     $el.data('show', false).after(initList(data))
 
-    const $radioBox = $el.siblings().eq(0)
+    const $radioBox = $el.siblings('.radio_box').eq(0)
     $radioBox.css('display', 'none')
 
     onInputEvent($el, data)
-    onListEvent($el, $radioBox, data)
+    onListEvent($el, $radioBox, options)
 
     return {
       $el,
@@ -55,12 +55,13 @@
       })
   }
 
-  function onListEvent ($el, $radioBox) {
+  function onListEvent ($el, $radioBox, options) {
     const $list = $radioBox.find('.radio_list')
     $list.on('click', 'span', function (e) {
       e.stopPropagation()
       $el.text($(this).data('value'))
       close($el, $radioBox)
+      options.changeFn?.($el)
     })
   }
 

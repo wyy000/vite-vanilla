@@ -1,0 +1,41 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
+#app {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+}
+
+.chart {
+  flex: 8;
+}
+
+.options {
+  flex: 4;
+  min-width: 360px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.options .options_box {
+  display: flex;
+  flex-direction: column;
+}
+
+.options_box .conditions_title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.options_box .conditions {
+  display: flex;
+  flex-direction: column;
+}

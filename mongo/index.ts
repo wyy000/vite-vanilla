@@ -2,6 +2,7 @@ export const d3Data = ['2345', '1441', '754']
 
 export const menuList = [
   {name: 'chart', path: 'chart.html'},
+  {name: 'createBoard', path: 'createBoard.html', active: true},
   {name: 'customerGroup', path: 'customerGroup.html'},
   {name: 'd3', path: 'd3.html'},
   {name: 'input', path: 'input.html'},
@@ -9,7 +10,7 @@ export const menuList = [
   {name: 'tableSort', path: 'tableSort.html'},
   {name: 'tree', path: 'tree.html'},
   {name: 'select', path: 'select.html'},
-  {name: 'radio', path: 'radio.html', active: true},
+  {name: 'radio', path: 'radio.html'},
 ]
 
 export const tableData = Array.from({length: 20}).map((it, idx) => ({
