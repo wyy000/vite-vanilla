@@ -4,11 +4,12 @@ export const menuList = [
   {name: 'chart', path: 'chart.html'},
   {name: 'customerGroup', path: 'customerGroup.html'},
   {name: 'd3', path: 'd3.html'},
-  {name: 'input', path: 'input.html', active: true},
+  {name: 'input', path: 'input.html'},
   {name: 'table', path: 'table.html'},
   {name: 'tableSort', path: 'tableSort.html'},
   {name: 'tree', path: 'tree.html'},
   {name: 'select', path: 'select.html'},
+  {name: 'radio', path: 'radio.html', active: true},
 ]
 
 export const tableData = Array.from({length: 20}).map((it, idx) => ({

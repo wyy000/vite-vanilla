@@ -1,0 +1,54 @@
+.radio_box {
+  width: 232px;
+  height: 342px;
+  padding: 4px;
+  background: #fff;
+  border: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 24px;
+  z-index: 99;
+}
+
+.radio_search {
+  display: flex;
+}
+
+.search_input {
+  border: 1px solid #ddd;
+  line-height: 25px;
+  margin: 4px;
+  outline: none;
+  flex: 1;
+}
+
+.radio_list {
+  display: flex;
+  flex-direction: column;
+  margin: 4px;
+  overflow: auto;
+}
+
+.list_item {
+  padding: 2px 0;
+}
+
+.radio_box ::-webkit-scrollbar {
+  width: 6px;
+  background-color: #fff;
+}
+
+.radio_box ::-webkit-scrollbar-track {
+  background-color: #fff;
+}
+
+.radio_box ::-webkit-scrollbar-thumb {
+  background-color: rgb(16, 185, 129);
+  border-radius: 6px;
+}
+
+.radio_box ::-webkit-scrollbar-button:start,
+.radio_box ::-webkit-scrollbar-button:end {
+  display: none;
+}
