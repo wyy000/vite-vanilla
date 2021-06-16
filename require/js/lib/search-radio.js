@@ -6,27 +6,23 @@
   })
 
   function initSearchRadio (data, options = {}) {
-    const $el = $(this)
-    $el.parents().eq(0).css({'position': 'relative'})
-    $el.data('show', false).after(initList(data))
+    if (!$('.model_layer').length) {
+      $('body').append('<div class="model_layer"></div>')
+    }
 
-    const $radioBox = $el.siblings('.radio_box').eq(0)
-    $radioBox.css('display', 'none')
-
-    onInputEvent($el, data)
-    onListEvent($el, $radioBox, options)
+    $(this).data('show', false)
 
     return {
-      $el,
-      close: () => close($el, $radioBox),
-      show: () => show($el, $radioBox),
+      $el: $(this),
+      close: $el => close($el, options),
+      show: ($el, data, options) => show($el, data, options),
     }
   }
 
   function initList (data) {
     let str = ''
     data.forEach((it, idx) => {
-      str += '<span data-value="' + it.value + '" data-token="' + (it.dataToken ? it.dataToken : '') + '">' + it.text + '</span>'
+      str += '<span class="radio_item" data-value="' + it.value + '" data-token="' + (it.dataToken ? it.dataToken : '') + '">' + it.text + '</span>'
     })
     const html = '<div class="radio_box">\n' +
       '  <div class="radio_search">\n' +
@@ -39,41 +35,51 @@
     return $(html)
   }
 
-  function onInputEvent ($el, data) {
-    const $input = $el.siblings().eq(0).find('input')
-    $input
-      .on('click', function (e) { e.stopPropagation() })
-      .on('input', function (e) {
+  function onInputEvent (data) {
+    $('.model_layer .radio_box')
+      .on('click', 'input.search_input', function (e) { e.stopPropagation() })
+      .on('input', 'input.search_input', function (e) {
         const val = $(this).val()
-        const $listBox = $el.siblings().eq(0).find('.radio_list')
+        const $listBox = $('.model_layer').find('.radio_list')
         $listBox.html(
           data
             .filter(it => String(it.value).indexOf(val) > -1 || String(it.dataToken)?.indexOf(val) > -1)
-            .map(it => ('<span data-value="' + it.value + '" data-token="' + (it.dataToken ? it.dataToken : '') + '">' + it.text + '</span>'))
+            .map(it => ('<span class="radio_item" data-value="' + it.value + '" data-token="' + (it.dataToken ? it.dataToken : '') + '">' + it.text + '</span>'))
             .join('')
         )
       })
   }
 
-  function onListEvent ($el, $radioBox, options) {
-    const $list = $radioBox.find('.radio_list')
-    $list.on('click', 'span', function (e) {
+  function onListEvent ($el, options) {
+    $('.model_layer .radio_box').on('click', 'span.radio_item', function (e) {
       e.stopPropagation()
       $el.text($(this).data('value'))
-      close($el, $radioBox)
+      close($el)
       options.changeFn?.($el)
     })
   }
 
-  function close ($el, $radioBox) {
+  function close ($el) {
     if (!$el.data('show')) return
-    $radioBox.css('display', 'none')
+    $('.model_layer').empty()
     $el.data('show', false)
   }
 
-  function show ($el, $radioBox) {
-    if ($el.data('show')) return
-    $radioBox.css('display', 'flex')
+  function show ($el, data, options = {}) {
+    // if ($el.data('show')) return
+    if (!$('.model_layer .radio_box').length) {
+      $('.model_layer').append(initList(data))
+      onListEvent($el, options)
+      onInputEvent(data)
+    }
+
+    const $radioBox = $('.model_layer .radio_box')
+    const rect = $el[0].getBoundingClientRect()
+    const distance = $(window).height() - rect.top - rect.height
+    $radioBox.height() > distance ? $radioBox.css('top', rect.top + distance - $radioBox.height()) : $radioBox.css('top', rect.top + rect.height)
+    $radioBox
+      .css('left', rect.left)
+      .css('display', 'flex')
     $el.data('show', true)
   }
 

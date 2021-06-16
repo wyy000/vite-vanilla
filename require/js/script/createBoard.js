@@ -24,16 +24,26 @@ require(['common'], function () {
       initTopic($('.conditions .conditions_item').eq(0).children('button.topic'))
 
       document.addEventListener('click', radioClose)
+      window.onresize = function () {
+        Object.values(topicStack).forEach(it => {
+          if (it[0]?.$el.data('show')) {
+            it[0].show(it[0].$el, it[0].data, {changeFn: addTopic})
+          }
+          else if (it[1]?.$el.data('show')) {
+            it[1].show(it[1].$el, it[1].data)
+          }
+        })
+      }
     }
 
     function initTopic ($el) {
       const id = _id
-      topicStack[id] = [$el.initSearchRadio(eventList, {changeFn: addTopic})]
+      topicStack[id] = [{...$el.initSearchRadio(), data: eventList}]
       topicStack[id][0].$el
         .on('click', function (e) {
           e.stopPropagation()
           radioClose()
-          $(this).data('show') ? topicStack[id][0].close() : topicStack[id][0].show()
+          $(this).data('show') ? topicStack[id][0].close(topicStack[id][0].$el) : topicStack[id][0].show(topicStack[id][0].$el, eventList, {changeFn: addTopic})
         })
         .data('id', id)
       addId()
@@ -57,11 +67,11 @@ require(['common'], function () {
           '          <div class="text">' + $el.text() + '</div>')
 
         const id = $el.data('id')
-        topicStack[id][1] = $el.siblings('button.value').initSearchRadio(eventList)
+        topicStack[id][1] = {...$el.siblings('button.value').initSearchRadio(), data: eventList}
         topicStack[id][1].$el.on('click', function (e) {
           e.stopPropagation()
           radioClose()
-          topicStack[id][1].$el.data('show') ? topicStack[id][1].close() : topicStack[id][1].show()
+          topicStack[id][1].$el.data('show') ? topicStack[id][1].close(topicStack[id][1].$el) : topicStack[id][1].show(topicStack[id][1].$el, topicStack[id][1].data)
         })
 
         $('.conditions').append('<div class="conditions_item"><button class="topic">请选择</button></div>')
@@ -71,7 +81,7 @@ require(['common'], function () {
     }
 
     function radioClose () {
-      Object.values(topicStack).forEach(it => it[0].close?.())
+      Object.values(topicStack).forEach(it => it.forEach(item => item.close?.(item.$el)))
     }
 
     function resetTopic () {
