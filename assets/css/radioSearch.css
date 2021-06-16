@@ -31,15 +31,49 @@
   flex: 1;
 }
 
+.radio_type {
+  margin: 0 4px;
+  display: flex;
+}
+
+.radio_type button {
+  flex: 1;
+  background: #fff;
+  border: none;
+  border-right: 1px solid #ddd;
+  padding: 3px 0;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.radio_type button.active {
+  color: #00bf8a;
+}
+
+.radio_type button:last-child {
+  border-right: none;
+}
+
+.radio_type button:focus-visible {
+  border: 1px solid #00bf8a;
+  outline: none;
+}
+
 .radio_list {
   display: flex;
   flex-direction: column;
   margin: 4px;
   overflow: auto;
+  border-top: 1px solid #ddd;
 }
 
-.list_item {
+.radio_item {
   padding: 2px 0;
+  cursor: pointer;
+}
+
+.radio_item:hover {
+  background: #eee;
 }
 
 .radio_box ::-webkit-scrollbar {

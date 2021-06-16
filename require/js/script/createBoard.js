@@ -12,7 +12,10 @@ require(['common'], function () {
       delete topicStack[id]
     })
 
-    const eventList = Array.from({length: 15}).map((it, idx) => ({value: idx, text: idx}))
+    const eventList = {
+      event: { name: '事件', data: Array.from({length: 15}).map((it, idx) => ({value: idx, text: idx})) },
+      page: { name: '页面', data: Array.from({length: 15}).map((it, idx) => ({value: idx + 20, text: idx + 20})) },
+    }
 
     let topicStack = {}
     let _id = 0
