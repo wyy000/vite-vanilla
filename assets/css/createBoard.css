@@ -44,6 +44,88 @@ body {
   flex-direction: column;
 }
 
+#searchBtn {
+  cursor: pointer;
+  padding: 4px 12px;
+  border-radius: 16px;
+  color: #fff;
+  font-size: 15px;
+  background-color: #2dca93;
+  border: 1px solid #2dca93;
+}
+
+.conditions_item {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.conditions_item:hover {
+  background: #f0f6fc;
+}
+
+.conditions_item input {
+  text-align: center;
+  width: 10px;
+  background: #fff;
+  border: none;
+  outline: none;
+}
+
+.conditions_item input:focus-visible {
+  outline: none;
+}
+
+.conditions_item svg {
+  display: none;
+}
+
+.conditions_item:hover svg {
+  display: initial;
+}
+
+.conditions_item button.topic,
+.conditions_item input,
+.conditions_item span,
+.conditions_item div,
+.conditions_item svg {
+  color: #555;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.conditions_item svg {
+  cursor: pointer;
+}
+
+.conditions_item .text {
+  padding: 4px;
+}
+
+.operation_item {
+  display: flex;
+}
+
+.conditions_item .operation_item button {
+  position: relative;
+  height: 24px;
+  line-height: 24px;
+  font-size: 12px;
+  text-align: center;
+  padding: 0 6px;
+  background: #e5f0ec;
+  -webkit-transition: all .5s;
+  transition: all .5s;
+  color: #137d74;
+  border: 1px solid #deeffa;
+  border-radius: 2px;
+  cursor: pointer;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .options ::-webkit-scrollbar {
   width: 6px;
   background-color: #fff;

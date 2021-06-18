@@ -75,7 +75,9 @@
   function onListEvent ($el, options) {
     $('.model_layer .radio_box').on('click', 'span.radio_item', function (e) {
       e.stopPropagation()
-      $el.text($(this).data('value'))
+      $el
+        .text($(this).data('text') || $(this).data('value'))
+        .data('value', $(this).data('value'))
       close($el)
       options.changeFn?.($el)
     })
