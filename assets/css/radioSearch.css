@@ -68,6 +68,7 @@
 }
 
 .radio_item {
+  font-size: 14px;
   padding: 2px 0;
   cursor: pointer;
 }

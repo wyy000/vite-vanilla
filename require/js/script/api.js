@@ -9,10 +9,34 @@ define(['api'], function () {
     })
   }
 
+  const chartData = function (config) {
+    $.ajax({
+      url: '/chart-data',
+      type: 'post',
+      ...config,
+    })
+  }
+
   const dragData = function (config) {
     $.ajax({
       url: '/drag-data',
       type: 'GET',
+      ...config,
+    })
+  }
+
+  const getEvents = function (config) {
+    $.ajax({
+      url: '/events',
+      type: 'GET',
+      ...config,
+    })
+  }
+
+  const getEventValue = function (config) {
+    $.ajax({
+      url: '/event-value',
+      type: 'get',
       ...config,
     })
   }
@@ -108,7 +132,10 @@ define(['api'], function () {
 
   return {
     createGroup: createGroup,
+    chartData,
     dragData,
+    getEvents,
+    getEventValue,
     mergeChunk,
     menuList: menuList,
     tableData: tableData,

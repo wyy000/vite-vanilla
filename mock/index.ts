@@ -1,6 +1,6 @@
 import { MockMethod } from 'vite-plugin-mock'
 
-import {d3CurvesData, d3Data, menuList, tableData, treeData, userColumns, userGroups} from '../mongo'
+import {d3CurvesData, d3Data, events, eventValue, menuList, tableData, treeData, userColumns, userGroups} from '../mongo'
 
 export default [
   {
@@ -9,6 +9,19 @@ export default [
     response: ({ query }) => {
       return {
         code: 0,
+      }
+    },
+  },
+  {
+    url: '/chart-data',
+    method: 'get',
+    response: () => {
+      return {
+        code: 0,
+        data: Array.from({length: Math.ceil(6)}).map((it, i) => ({
+          title: '登录' + i,
+          count: Number(String(Math.random()).substr(2,4)),
+        })).sort((a, b) => b.count - a.count),
       }
     },
   },
@@ -65,6 +78,26 @@ export default [
             },
           })),
         },
+      }
+    },
+  },
+  {
+    url: '/events',
+    method: 'get',
+    response: ({ query }) => {
+      return {
+        code: 0,
+        data: events,
+      }
+    },
+  },
+  {
+    url: '/event-value',
+    method: 'get',
+    response: ({ query }) => {
+      return {
+        code: 0,
+        data: eventValue[query.id],
       }
     },
   },

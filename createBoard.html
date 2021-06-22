@@ -8,7 +8,71 @@
 </head>
 <body>
 <div id="app">
-  <div class="chart">chart</div>
+  <div class="chart">
+    <div class="chart_title">
+      <div class="description">
+        <h1>chart</h1>
+      </div>
+      <div class="tools">
+        <button class="download" data-type="download">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18">
+            <path fill="none" d="M0 0h24v24H0z" />
+            <path d="M13 10h5l-6 6-6-6h5V3h2v7zm-9 9h16v-7h2v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-8h2v7z" fill="currentColor" />
+          </svg>
+          下载
+        </button>
+        <a href="" class="download hidden" download="chart"></a>
+      </div>
+    </div>
+    <div class="chart_view">
+      <div class="chart_header">
+        <div>日期</div>
+        <div class="chart_type">
+          <button class="chart_type_btn active" data-type="line">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+              <path fill="none" d="M0 0H24V24H0z" />
+              <path d="M5 3v16h16v2H3V3h2zm15.293 3.293l1.414 1.414L16 13.414l-3-2.999-4.293 4.292-1.414-1.414L13 7.586l3 2.999 4.293-4.292z" fill="currentColor" />
+            </svg>
+          </button>
+          <button class="chart_type_btn" data-type="area">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1V19H3.52M19 19H16.84M16.84 19H3.52M16.84 19V9.64M3.52 19V15.31M3.52 15.31V11.62L9.28 7.3L11.08 9.64L16.84 5.14V9.64M3.52 15.31L9.28 11.62L11.08 14.14L16.84 9.64" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+          <button class="chart_type_btn" data-type="timeRect">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path d="M2 12h2v9H2v-9zm3 2h2v7H5v-7zm11-6h2v13h-2V8zm3 2h2v11h-2V10zM9 2h2v19H9V2zm3 2h2v17h-2V4z" fill="currentColor" />
+            </svg>
+          </button>
+          <button class="chart_type_btn" data-type="rect">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path d="M3 12h2v9H3v-9zm16-4h2v13h-2V8zm-8-6h2v19h-2V2z" fill="currentColor" />
+            </svg>
+          </button>
+          <button class="chart_type_btn" data-type="pie">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path d="M12 22C6.477 22 2 17.523 2 12c0-4.478 2.943-8.268 7-9.542v2.124A8.003 8.003 0 0 0 12 20a8.003 8.003 0 0 0 7.418-5h2.124c-1.274 4.057-5.064 7-9.542 7zm9.95-9H11V2.05c.329-.033.663-.05 1-.05 5.523 0 10 4.477 10 10 0 .337-.017.671-.05 1zM13 4.062V11h6.938A8.004 8.004 0 0 0 13 4.062z" fill="currentColor" />
+            </svg>
+          </button>
+          <button class="chart_type_btn" data-type="number">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            </svg>
+          </button>
+          <button class="chart_type_btn" data-type="table">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path d="M4 8h16V5H4v3zm10 11v-9h-4v9h4zm2 0h4v-9h-4v9zm-8 0v-9H4v9h4zM3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" fill="currentColor" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div id="chartBox"></div>
+    </div>
+  </div>
   <div class="options">
     <div class="options_box">
       <h3>事件分析</h3>

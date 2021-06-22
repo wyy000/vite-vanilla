@@ -22,7 +22,7 @@
   function initList (data) {
     let str = ''
     data.forEach(it => {
-      str += '<span class="radio_item" data-value="' + it.value + '" data-token="' + (it.dataToken ? it.dataToken : '') + '">' + it.text + '</span>'
+      str += '<span class="radio_item" id="' + (it.id ?? '') + '" data-value="' + it.value + '" data-text="' + it.text + '" data-token="' + (it.dataToken ? it.dataToken : '') + '">' + it.text + '</span>'
     })
     const html = '<div class="radio_box">\n' +
       '  <div class="radio_search">\n' +
@@ -46,12 +46,14 @@
 
     $('.radio_type').on('click', 'button', function (e) {
       const $this = $(this)
+      const keyword = $('input.search_input').val()
       e.stopPropagation()
       if ($this.hasClass('active')) return
       $this.addClass('active').siblings('button').removeClass('active')
       $('.radio_list').html(
         data[$this.data('type')].data
-          .map(it => '<span class="radio_item" data-value="' + it.value + '" data-token="' + (it.dataToken ? it.dataToken : '') + '">' + it.text + '</span>')
+          .filter(it => keyword ? String(it.text)?.indexOf(keyword) > -1 || String(it.value).indexOf(keyword) > -1 || String(it.dataToken)?.indexOf(keyword) > -1 : true)
+          .map(it => '<span class="radio_item" id="' + (it.id ?? '') + '" data-value="' + it.value + '" data-text="' + it.text + '" data-token="' + (it.dataToken ? it.dataToken : '') + '">' + it.text + '</span>')
           .join('')
       )
     })
@@ -65,8 +67,8 @@
         const $listBox = $('.model_layer').find('.radio_list')
         $listBox.html(
           (Array.isArray(data) ? data : data[$('.radio_type .active')?.data('type')].data)
-            .filter(it => String(it.value).indexOf(val) > -1 || String(it.dataToken)?.indexOf(val) > -1)
-            .map(it => ('<span class="radio_item" data-value="' + it.value + '" data-token="' + (it.dataToken ? it.dataToken : '') + '">' + it.text + '</span>'))
+            .filter(it => String(it.text)?.indexOf(val) > -1 || String(it.value).indexOf(val) > -1 || String(it.dataToken)?.indexOf(val) > -1)
+            .map(it => ('<span class="radio_item" id="' + (it.id ?? '') + '" data-value="' + it.value + '" data-text="' + it.text + '" data-token="' + (it.dataToken ? it.dataToken : '') + '">' + it.text + '</span>'))
             .join('')
         )
       })

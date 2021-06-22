@@ -5,6 +5,15 @@ body {
   height: 100%;
 }
 
+button {
+  background: #fff;
+  border: none;
+}
+
+.hidden {
+  display: none;
+}
+
 #app {
   display: flex;
   width: 100%;
@@ -12,8 +21,77 @@ body {
   background: #fff;
 }
 
+.chart_title {
+  display: flex;
+  justify-content: space-between;
+  background: #fff;
+}
+
 .chart {
   flex: 8;
+  display: flex;
+  flex-direction: column;
+  background: #eee;
+}
+
+h1 {
+  margin: 0;
+  padding: 30px;
+  background: #fff;
+}
+
+.chart_view {
+  margin: 16px;
+  background: #fff;
+  box-shadow: 0 0 6px rgba(0 0 0 / 0.1);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart_header {
+  margin: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.chart_type {
+  display: flex;
+  flex-grow: 0;
+}
+
+.chart_type_btn {
+  cursor: pointer;
+  font-size: 12px;
+  min-width: 10px;
+  -webkit-transition: all .5s;
+  transition: all .5s;
+  background-color: #fff;
+  padding: 5px 8px 2px;
+  color: #6d859e;
+  border: 1px solid #dfe5ea;
+  border-right-color: #fff;
+}
+
+.chart_type_btn:last-child {
+  border-right: 1px solid #dfe5ea;
+}
+
+.chart_type_btn:hover {
+  color: #00bf8a;
+  border-color: #00bf8a;
+}
+
+.chart_type_btn:active,
+.chart_type_btn.active {
+  background: #00bf8a;
+  color: #fff;
+  border-color: #00bf8a;
+}
+
+#chartBox {
+  flex: 1;
+  margin: 0 10px;
 }
 
 .options {
